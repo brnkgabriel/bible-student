@@ -1,0 +1,63 @@
+
+.-auth {
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  width: 90%;
+}
+.-auth .-title {
+
+}
+.-auth .-title img {
+  max-width: 40px;
+}
+.-auth .-title .-txt {
+  text-transform: uppercase;
+  color: var(--darkOrange);
+  font-weight: bold;
+  max-width: unset;
+  width: unset;
+  line-height: 1;
+  text-align: left;
+  margin-left: 5px;
+}
+.-auth .-field {
+  background-color: #ffffff;
+  border: none;
+  border-radius: .5rem;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .30), 0 1px 3px 1px rgba(60, 64, 67, .15);
+  box-sizing: border-box;
+  color: #202124;
+  height: 48px;
+  padding: 0 10px;
+  width: 90%;
+  -webkit-appearance: none;
+  outline: none;
+  line-height: 1;
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.-auth #login {
+  display: block;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 15px;
+  text-transform: uppercase;
+  font-weight: 600;
+  border: unset;
+  background-color: var(--textOrange);
+  transform: scale(1);
+}
+
+.-auth #login:active {
+  transform: scale(0.95);
+}
+
+.-auth #login:focus {
+  outline: unset;
+  border: unset;
+}

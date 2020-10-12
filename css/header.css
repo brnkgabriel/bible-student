@@ -1,0 +1,51 @@
+.-top-title {
+}
+
+.-header {
+  height: 56px;
+  background-color: white;
+  top: 0%;
+  left: 50%;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
+  width: 100%;
+  max-width: 480px;
+  z-index: 10;
+  transform: translateX(-50%);
+}
+
+.-header .-site,
+.-header .-page {
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  width: 45%
+}
+
+.-header .-site {
+  left: 8px;
+}
+
+.-header .-site img,
+.-header .-site .-txt {
+  width: 50%;
+  max-width: 40px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.-header .-site .-txt {
+  text-transform: uppercase;
+  color: var(--darkOrange);
+  font-weight: bold;
+  max-width: unset;
+  width: unset;
+  line-height: 1;
+}
+
+.-header .-page {
+  text-transform: capitalize;
+  line-height: 1;
+  font-weight: 600;
+  right: 8px;
+  text-align: right;
+}

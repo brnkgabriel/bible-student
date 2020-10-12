@@ -1,0 +1,16 @@
+
+.-pane {
+  width: 100%;
+  height: 56.25vw;
+  max-height: 270px;
+}
+.-pane iframe,
+.-pane .-exercise {
+  width: 100%;
+  max-width: 480px;
+  border: unset;
+  height: 100%;
+}
+.-pane .-exercise {
+  
+}

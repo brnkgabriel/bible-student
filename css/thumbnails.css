@@ -1,0 +1,26 @@
+.-thumbnails {
+  margin: 8px 0px;
+  background-color: white;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
+  white-space: nowrap;
+  overflow: auto;
+}
+
+.-thumbnail {
+  width: 24.375vw;
+  max-width: 117px;
+  height: 34.375vw;
+  max-height: 165px;
+  text-align: center;
+  padding: 8px;
+}
+.-thumbnail img {
+  width: 70px;
+}
+.-thumbnail .-txt {
+  width: 70px;
+  margin: 0 auto;
+  white-space: pre-wrap;
+  font-size: 0.85em;
+  line-height: 1;
+}

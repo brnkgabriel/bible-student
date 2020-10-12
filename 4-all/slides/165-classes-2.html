@@ -1,0 +1,16 @@
+<title>Classes (2)</title>
+<h1>Classes</h1>
+<pre>
+class square extends shape {
+    constructor() {
+        super(4);
+    }
+}
+
+const sq = new square();
+// square.sides = 4;
+
+const hex = sq.makeShape(6);
+// error: static method isn't inherited
+</pre>
+<next-slide>170-es5-classes</next-slide>

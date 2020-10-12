@@ -1,0 +1,86 @@
+
+.-banner {
+  background-color: var(--surfaceColor);
+  height: 41.875vw;
+  max-height: 201px;
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
+  margin: 8px 0;
+  padding: 8px 4px;
+}
+.-banner.-double > a,
+.-banner.-single {
+  width: 50%;
+  height: 100%;
+  padding: 0px 4px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.-banner.-single {
+  display: block;
+  width: 100%;
+  padding: 8px;
+}
+
+.-banner > div::before {
+  /* content: attr(data-amt); */
+  position: absolute;
+  background-color: var(--surfaceColor);
+  color: var(--onSurfaceDarkCoolor);
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  border-radius: 50%;
+  text-align: center;
+  font-weight: 600;
+  left: 102%;
+  top: -2%;
+  transform: translate(calc(-100% - 4px),0%);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.2);
+}
+
+.-banner > div.-show .-data {
+  top: 50%;
+}
+
+.-banner.-single > div {
+  width: 100%;
+}
+.-banner .-data {
+  width: calc(100% - 8px);
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  top: -100%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  border-radius: 4px;
+}
+.-banner .-data .-posabs {
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%,-50%) scale(0);
+  color: white;
+}
+
+.-banner [data-no="1"] .-data .-ctr,
+.-banner [data-no="2"] .-data .-views,
+.-banner [data-no="3"] .-data .-clicks {
+  transform: translate(-50%,-50%) scale(1);
+}
+
+.-banner .-data .-posabs .-num {
+  font-size: 2.5em;
+  font-weight: 600;
+}
+.-banner .-data .-posabs .-txt {
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.-banner .-data .-clicks {
+
+}
+.-banner img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
