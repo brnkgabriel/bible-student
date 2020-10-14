@@ -1,8 +1,9 @@
 
 .-pane {
-  width: 100%;
+  width: calc(100% - 16px);
   height: 56.25vw;
   max-height: 270px;
+  margin: 0px auto;
 }
 .-pane iframe,
 .-pane .-exercise {

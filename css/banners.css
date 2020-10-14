@@ -4,21 +4,31 @@
   height: 41.875vw;
   max-height: 201px;
   box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
-  margin: 8px 0;
-  padding: 8px 4px;
+  margin: 4px 0;
+  padding: 4px 4px;
 }
-.-banner.-double > a,
+.-banner.-double > *,
 .-banner.-single {
   width: 50%;
   height: 100%;
-  padding: 0px 4px;
+  padding: 0px 2px;
   cursor: pointer;
   overflow: hidden;
 }
+
+.-banner.-double > *:first-child {
+  padding-left: unset;
+}
+
+
+.-banner.-double > *:last-child {
+  padding-right: unset;
+}
+
 .-banner.-single {
   display: block;
   width: 100%;
-  padding: 8px;
+  padding: 4px;
 }
 
 .-banner > div::before {
@@ -46,7 +56,7 @@
   width: 100%;
 }
 .-banner .-data {
-  width: calc(100% - 8px);
+  width: calc(100% - 4px);
   height: 100%;
   background-color: rgba(0,0,0,0.6);
   top: -100%;

@@ -4,7 +4,7 @@
   margin: 0;
   box-sizing: border-box;
   transition: all 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  line-height: 1.15;
+  vertical-align: middle;
 }
 
 :root {
@@ -72,4 +72,12 @@ body {
 
 .-vatop {
   vertical-align: top;
+}
+
+
+.-main .-title {
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--gray);
+  padding: 8px;
 }

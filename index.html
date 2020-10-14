@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <!-- TODO: to put the appshell header & footer component -->
+  <!-- TODO: connect the pages using the router -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -12,8 +15,17 @@
   <meta name="apple-mobile-web-app-status-bar" content="#ffba08">
   <meta name="theme-color" content="#ffba08">
 </head>
+
 <body>
   <div class="-container">
+    <div id="app-shell"></div>
+    <!-- <div id="header_container"></div> -->
+    <div id="page_container" class="container pageEntry">
+      <article>Loading...</article>
+    </div>
+    <!-- <div id="footer_container"></div> -->
+
+
     <!-- <div class="-row -header -posfix">
       <div class="-posabs -site">
         <img src="./img/logo.png" alt="logo"/>
@@ -21,7 +33,7 @@
       </div>
       <div class="-posabs -page">home</div>
     </div> -->
-    
+
     <!-- <div class="-row -main">
       <div class="-sliders">
         <a href="/pages/mlp.html" class="-slider -inlineblock -vamiddle -posrel" id="slider-template">
@@ -67,8 +79,8 @@
         <img src="./img/designs/fl-pcc.jpg" alt="doublebanner"/>
       </a>
     </div> -->
-    <main-content id="main" start="home"></main-content>
-    <app-shell content="main"></app-shell>
+    <!-- <main-content id="main" start="home"></main-content>
+    <app-shell content="main"></app-shell> -->
     <!-- <div class="-footer -posfix">
       <div class="-nav -posrel">
         <div class="-hamburger -posabs"></div>
@@ -94,15 +106,15 @@
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1MHTW1WT1"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-  
+
     gtag('config', 'G-P1MHTW1WT1');
   </script>
   <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-firestore.js"></script>
   <!-- <script src="./js-vanillajs/materials.js"></script> -->
-  <script src="./js/utils.js"></script>
+  <!-- <script src="./js/utils.js"></script> -->
   <script src="./js/database.js"></script>
   <script src="./js/header.js"></script>
   <!-- <script src="./js/footer.js"></script> -->
@@ -111,7 +123,8 @@
   <!-- <script src="./js/collections.js"></script> -->
   <!-- <script src="./js/banners.js"></script> -->
   <!-- <script src="./js/homepage.js"></script> -->
-  <script type="module" src="./js-vanillajs/app-2.js"></script>
+  <script type="module" src="./js-vanilla/app.js"></script>
   <!-- <script src="./js/app.js"></script> -->
 </body>
+
 </html>

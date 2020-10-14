@@ -1,0 +1,57 @@
+
+.-mkufloor {
+}
+
+.-mkufloor .-mkus {
+  margin-top: 8px;
+}
+
+.-mkufloor .-mkus {
+
+}
+.-mkufloor .-mkus .-mku {
+  cursor: pointer;
+  display: block;
+  color: black;
+  background-color: white;
+  width: 95%;
+  margin: 0 auto;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  height: 28.125vw;
+  max-height: 135px;
+}
+.-mkufloor .-mkus .-mku .-img {
+  width: 50%;
+  height: 100%;
+  background-position: center;
+  background-size: 110%;
+  background-repeat: no-repeat;
+}
+
+.-mkufloor .-mkus .-mku .-details {
+  width: 50%;
+  padding: 0 8px;
+  font-weight: 600;
+  left: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.-mkufloor .-mkus .-mku .-details .-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.-mkufloor .-mkus .-mku .-details .-desc,
+.-mkufloor .-mkus .-mku .-details .-author {
+  font-size: 0.8em;
+  opacity: 0.6;
+}
+
+.-mkufloor .-mkus .-mku .-details .-author {
+
+}

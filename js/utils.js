@@ -1,10 +1,10 @@
 class Tag {
   constructor(properties) {
-    this.tag          = properties[0]
-    this.attributes   = properties[1]
-    this.styles       = properties[2]
-    this.textContent  = properties[3]
-    this.element      = null
+    this.tag = properties[0]
+    this.attributes = properties[1]
+    this.styles = properties[2]
+    this.textContent = properties[3]
+    this.element = null
   }
 
   get() {
@@ -53,17 +53,94 @@ class Tag {
 
 }
 
-const Utils = {
-  replacePattern: function(pattern, str) {
+class Materials {
+  constructor() {
+    this.data = [
+      "name=In the Beginning|desc=Old Testament|author=Superbook|host=YouTube|id=fn-wEOpPsMo|type=Animation",
+      "name=Abraham|desc=Old Testament|author=Superbook|host=YouTube|id=xAFMg09bido|type=Animation",
+      "name=Jacob & Esau|desc=Old Testament|author=Superbook|host=YouTube|id=zhykNXjGQuA|type=Animation",
+      "name=The Exodus|desc=Old Testament|author=Superbook|host=YouTube|id=H98zaq803Tg|type=Animation",
+      "name=The 10 Commandments|desc=Old Testament|author=Superbook|host=YouTube|id=VtWfiTXO1Ts|type=Animation",
+      "name=David - Giant Adventure|desc=Old Testament|author=Superbook|host=YouTube|id=jdMq3YAfmO0|type=Animation",
+      "name=Daniel - Roar|desc=Old Testament|author=Superbook|host=YouTube|id=5UNBtaVsWm4|type=Animation",
+      "name=The First Christmas|desc=New Testament|author=Superbook|host=YouTube|id=1fl9laM4ViM|type=Animation",
+      "name=Miracles of Jesus|desc=New Testament|author=Superbook|host=YouTube|id=uZTHwqj0Bkk|type=Animation",
+      "name=The Last Supper|desc=New Testament|author=Superbook|host=YouTube|id=9Edfb_faOb0|type=Animation",
+      "name=He is Risen|desc=New Testament|author=Superbook|host=YouTube|id=3F0rt2AiqJY|type=Animation",
+      "name=Paul - Road to Damascus|desc=New Testament|author=Superbook|host=YouTube|id=ogDArF83p8I|type=Animation",
+      "name=The Final Battle|desc=New Testament|author=Superbook|host=YouTube|id=ycSy-kmtM4Q|type=Animation",
+      "name=Jonah|desc=Old Testament|author=Superbook|host=YouTube|id=YkC2MKfI5Gk|type=Animation",
+      "name=Joseph|desc=And Pharaoh's Dream|author=Superbook|host=YouTube|id=1VENAMIch84|type=Animation",
+      "name=The Fiery Furnace|desc=Shadrach, Meshach, Abednego|author=Superbook|host=YouTube|id=bFhmFzmW40I|type=Animation",
+      "name=Rahab|desc=And The Walls of Jericho|author=Superbook|host=YouTube|id=F7sm4tSS7IE|type=Animation",
+      "name=Esther|desc=For Such a Time as This|author=Superbook|host=YouTube|id=q94wBYdMwtE|type=Animation",
+      "name=John the Baptist|desc=New Testament|author=Superbook|host=YouTube|id=_d4KeGaTa9U|type=Animation",
+      "name=Noah & the Ark|desc=Old Testament|author=Superbook|host=YouTube|id=t1p5ocaJzTM|type=Animation",
+      "name=Gideon|desc=Old Testament|author=Superbook|host=YouTube|id=StowZD2JvZw|type=Animation",
+      "name=In the Beginning|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=6cvA9nIRy5A|type=Animation",
+      "name=Abraham|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=8UbeJSOQsHQ|type=Animation",
+      "name=Moses|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=E1SztIhPXtg|type=Animation",
+      "name=The Exodus|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=QPxjlOr7hro|type=Animation",
+      "name=The Land of Canaan|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=eZT8CMbznB4|type=Animation",
+      "name=Elijah & Elisha|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=0OHvyS_DJ_I|type=Animation",
+      "name=Babylon|desc=Old Testament|author=Bible Animation Series|host=YouTube|id=me6HsPd85r0|type=Animation",
+      "name=Birth|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=YISebgzy0SI|type=Animation",
+      "name=Early Ministry|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=W5oJ3pT6VXA|type=Animation",
+      "name=Miracles & Parables|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=AqmBaJNLvAk|type=Animation",
+      "name=Crucifixion & Death|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=Cy0SzlxMVho|type=Animation",
+      "name=Burial & Resurrection|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=MEWdbYu94wQ|type=Animation",
+      "name=The Gospel|desc=Of Jesus Christ|author=Bible Animation Series|host=YouTube|id=SN3Oa8867dM|type=Animation",
+      "name=Pharisee & Tax Collector|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=Ufe6zouTq8g|type=Animation",
+      "name=The Lost Son|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=mLI2zqMU6Ww|type=Animation",
+      "name=Jesus Heals the Paralytic|desc=New Testament|author=Max 7 - RodTheNey|host=YouTube|id=0LqHYkGU4Zg|type=Animation",
+      "name=Following Jesus|desc=New Testament|author=Max 7 - RodTheNey|host=YouTube|id=eKzGAlBvWP8|type=Animation",
+      "name=The Good Samaritan|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=Dr0Vn5QBMtM|type=Animation",
+      "name=Wise & Foolish Builders|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=CXWHLB1f6_U|type=Animation",
+      "name=The Talents|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=bbPKhYBaWRg|type=Animation",
+      "name=The Lost Sheep|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=tyWZeOlaRo4|type=Animation",
+      "name=The Sower|desc=Parable of Jesus|author=Max 7 - RodTheNey|host=YouTube|id=V9IOhGPrRvY|type=Animation",
+      "name=Overview|desc=Old Testament|author=The Bible Project|host=YouTube|id=ALsluAKBZ-c|type=Comic",
+      "name=Genesis 1-11|desc=Old Testament|author=The Bible Project|host=YouTube|id=GQI72THyO5I|type=Comic",
+      "name=Genesis 12-50|desc=Old Testament|author=The Bible Project|host=YouTube|id=F4isSyennFo|type=Comic",
+      "name=Exodus 1-18|desc=Old Testament|author=The Bible Project|host=YouTube|id=jH_aojNJM3E|type=Comic",
+      "name=Exodus 19-40|desc=Old Testament|author=The Bible Project|host=YouTube|id=oNpTha80yyE|type=Comic",
+      "name=Leviticus|desc=Old Testament|author=The Bible Project|host=YouTube|id=IJ-FekWUZzE|type=Comic",
+      "name=Numbers|desc=Old Testament|author=The Bible Project|host=YouTube|id=tp5MIrMZFqo|type=Comic",
+      "name=Deuteronomy|desc=Old Testament|author=The Bible Project|host=YouTube|id=q5QEH9bH8AU|type=Comic",
+      "name=Bible Study|desc=Study Resources|author=Clarence Larkin|host=PDF|id=1T-SrgO3Z_uzczLDxIj7MTa5UzaU2g2wO|type=E-Book",
+    ]
+
+    this.expanded = this.expand(this.data)
+  }
+  
+  expand(skus) {
+    return skus.map(sku => this.json(sku.split('|')))
+    .map(sku => { return { ...sku, filter: this.id(sku.author) } })
+    
+  }
+
+  json(skuDetails) {
+    var obj = {}
+    skuDetails.map(property => {
+      var keyValue = property.split('=')
+      obj[keyValue[0]] = keyValue[1]
+    })
+    return obj
+  }
+
+  replacePattern(pattern, str) {
     var re = new RegExp(pattern, 'g')
     var replaced = str.replace(re, '-')
     return replaced
-  },
+  }
 
-  id: function (name) {
+  id(name) {
     var replacedApos = this.replacePattern("'", name)
     var replaceAmp = this.replacePattern('&', replacedApos)
     var replacePercnt = this.replacePattern('%', replaceAmp)
     return replacePercnt.toLowerCase().split(' ').join('-')
   }
 }
+
+
+// new Materials()
