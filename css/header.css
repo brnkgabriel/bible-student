@@ -23,6 +23,7 @@
 
 .-header .-site {
   left: 8px;
+  text-decoration: unset;
 }
 
 .-header .-site img,

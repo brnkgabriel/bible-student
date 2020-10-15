@@ -6,8 +6,8 @@ let Home = {
     <title>home</title>
     <div class="-row -main">
       
-      <a href="#" data-filter="pcc" class="-banner -single">
-        <img src="./img/designs/fl-pcc.jpg" alt="doublebanner"/>
+      <a href="/#/mlp/max-7---rodtheney" data-filter="pcc" class="-banner -single">
+        <img src="./img/designs/fl-max7-3d.jpg" alt="doublebanner"/>
       </a>
             
       <div class="-banner -double">
@@ -18,8 +18,8 @@ let Home = {
         </a>
       </div>
     
-      <a href="#" data-filter="awmi" class="-banner -single">
-        <img src="./img/designs/fl-awmi.jpg" alt="doublebanner"/>
+      <a href="/#/mlp/the-animated-series" data-filter="awmi" class="-banner -single">
+        <img src="./img/designs/fl-bas.jpg" alt="doublebanner"/>
       </a>
       
       

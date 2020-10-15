@@ -1,31 +1,26 @@
-const staticCacheName = 'site-static';
-const dynamicCacheName = 'site-dynamic';
+const staticCacheName = 'site-static-new';
+const dynamicCacheName = 'site-dynamic-new';
 const assets = [
   '/',
-  '/img/bolt.png',
   '/index.html',
-  '/mlp.html',
   '/js/app.js',
-  '/js/banner.js',
-  '/js/collections.js',
   '/js/database.js',
-  '/js/floors.js',
-  '/js/header.js',
-  '/js/homepage.js',
-  '/js/sliders.js',
-  '/js/utils.js',
-  '/js/mlp.js',
+  '/js/router.js',
+  '/services/data.json',
+  '/services/Utils.js',
+  '/views/components/app-shell.js',
+  '/views/pages/Error404.js',
+  '/views/pages/home.js',
+  '/views/pages/mdp.js',
+  '/views/pages/mlp.js',
   '/css/banner.css',
-  '/css/mdp.css',
-  '/css/floor.css',
   '/css/footer.css',
-  '/css/freelinks.css',
   '/css/global.css',
   '/css/header.css',
-  '/css/recommendations.css',
+  '/css/main.css',
+  '/css/mdp.css',
+  '/css/mlp.css',
   '/css/sliders.css',
-  '/css/mkufloor.css',
-  '/css/thumbnails.css',
   '/css/styles.css'
 ];
 

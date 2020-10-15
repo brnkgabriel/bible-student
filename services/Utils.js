@@ -24,7 +24,7 @@ const Utils = {
   },
 
   data: async () => {
-    var response = await fetch('./js/data.json')
+    var response = await fetch('./services/data.json')
     var data = await response.json()
     return Utils.expand(data)
   },

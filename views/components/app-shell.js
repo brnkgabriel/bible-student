@@ -1,13 +1,14 @@
 // @ts-check
+import Utils from '../../services/Utils.js'
 
 let AppShell = {
   render: async () => {
     let view = /*html*/`
     <div class="-row -header -posfix">
-      <div class="-posabs -site">
+      <a href="/#/" class="-posabs -site">
         <img src="./img/logo.png" alt="logo" />
         <div class="-txt">Bible<br />Student</div>
-      </div>
+      </a>
       <div class="-posabs -page">home</div>
     </div>
     
@@ -36,7 +37,14 @@ let AppShell = {
     return view
   },
   after_render: async () => {
-    var nav = document.querySelector('.-nav')
+    var types = {
+      mdp: 'material detail page',
+      mlp: 'manual listing page'
+    }
+    let request = Utils.parseRequestURL()
+    var page = document.querySelector('.-header .-page')
+    page.textContent = types[request.resource] || 'home'
+    
     var footer = document.querySelector('.-footer')
     var hamburger = document.querySelector('.-hamburger')
     var search = document.querySelector('.-search')
