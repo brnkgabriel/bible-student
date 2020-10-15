@@ -4,6 +4,8 @@
   height: 56.25vw;
   max-height: 270px;
   margin: 0px auto;
+  position: relative;
+  overflow: hidden;
 }
 .-pane iframe,
 .-pane .-exercise {
@@ -13,5 +15,5 @@
   height: 100%;
 }
 .-pane .-exercise {
-  
+  left: 100%;
 }

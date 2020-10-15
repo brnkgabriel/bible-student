@@ -23,7 +23,6 @@ let MDP = {
   render: async () => {
     let request = Utils.parseRequestURL()
     let datum = await getDatum(request.id)
-    console.log('datum from mdp.js is', datum)
 
     return /*html*/`
     <div class="-row -main">

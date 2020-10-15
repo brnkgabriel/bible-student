@@ -12,7 +12,7 @@
 }
 
 .-footer[data-action="show"] {
-  height: 250px;
+  height: 180px;
 }
 
 .-footer .-nav {
@@ -41,7 +41,7 @@
   background-color: var(--surfaceColor);
   width: 56px;
   height: 56px;
-  left: 0px;
+  right: 0px;
 }
 
 [data-action="search"] .-hamburger {

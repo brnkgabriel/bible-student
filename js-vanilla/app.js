@@ -3,13 +3,7 @@
 import Home       from '../views/pages/home.js'
 import MLP        from '../views/pages/mlp.js'
 import MDP        from '../views/pages/mdp.js'
-// import About      from './views/pages/About.js'
 import Error404   from '../views/pages/Error404.js'
-// import PostShow   from './views/pages/PostShow.js'
-// import Register   from './views/pages/Register.js'
-
-// import Navbar     from './views/components/Navbar.js'
-// import Bottombar  from './views/components/Bottombar.js'
 
 import Utils      from '../services/Utils.js'
 import AppShell from '../views/components/app-shell.js'
@@ -18,10 +12,7 @@ import AppShell from '../views/components/app-shell.js'
 const routes = {
   '/'         : Home,
   '/mlp/:id'  : MLP,
-  '/mdp/:id'  : MDP,
-  // '/about'    : About,
-  // '/p/:id'    : PostShow,
-  // '/register' : Register
+  '/mdp/:id'  : MDP
 }
 
 // The router code. Takes a URL, checks against the list of supported routes and then renders corresponding content page

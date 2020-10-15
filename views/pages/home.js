@@ -1,25 +1,7 @@
 // @ts-check
 
-let getPostsList = async () => {
-  // const options = {
-  //   method: 'GET',
-  //   headers: {
-  //     'Content-Type': 'application/json'
-  //   }
-  // }
-  try {
-    // const response = await fetch(`https://5bb634f6695f8d001496c082.mockapi.io/api/posts`, options)
-    // const json = await response.json()
-    // console.log(json)
-    return {}
-  } catch (err) {
-    console.log('Error getting documents', err)
-  }
-}
-
 let Home = {
   render: async () => {
-    let posts = await getPostsList()
     let view = /*html*/`
     <title>home</title>
     <div class="-row -main">
@@ -45,9 +27,7 @@ let Home = {
     `
     return view
   },
-  after_render: async () => {
-
-  }
+  after_render: async () => { }
 }
 
 export default Home
