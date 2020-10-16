@@ -23,7 +23,11 @@ let MDP = {
   render: async () => {
     let request = Utils.parseRequestURL()
     let datum = await getDatum(request.id)
+    console.log('datum', datum)
 
+    return MDP[datum.type](datum)
+  },
+  video: (datum) => {
     return /*html*/`
     <div class="-row -main">
       <div class="-title">${datum.name}</div>
@@ -34,7 +38,58 @@ let MDP = {
     </div>
     `
   },
-  after_render: async () => {}
+  slideshow: (datum) => {
+    var path = './img/designs/pace-christian-cartoons/'
+    var count = parseInt(datum.id.split('-')[1])
+    var images = new Array(count).fill(count)
+    .map((i,v) => path + (v + 1) + '.jpg')
+    console.log('images', images, 'count', count)
+    return /*html*/`
+    <div class="-row -main">
+      <div class="-title">${datum.name}</div>
+      <div class="-slides -posrel">
+        ${
+          images.map((image, idx) => {
+            var elClass = idx === 0 ? '-posabs active' : '-posabs'
+            return '<img src="' + image + '" class="' + elClass + '" alt="_img"/>'
+          }).join('')
+        }
+      </div>
+      <div class="-controls">
+        <div class="-control -prev -inlineblock -vamiddle -posrel"></div>
+        <div class="-status -inlineblock -vamiddle">1 / ${count}</div>
+        <div class="-control -next -inlineblock -vamiddle -posrel"></div>
+      </div>
+    </div>
+    `
+  },
+  after_render: async () => {
+    var idx = 0
+    var slides = document.querySelectorAll('.-slides img')
+    var prev = document.querySelector('.-controls .-control.-prev')
+    var next = document.querySelector('.-controls .-control.-next')
+    var status = document.querySelector('.-controls .-status')
+
+    next.addEventListener('click', () => {
+      idx++;
+      (idx === slides.length) && (idx = 0)
+      MDP.update_ui({ slides, idx, status })
+    })
+
+    prev.addEventListener('click', () => {
+      idx--;
+      (idx === -1) && (idx = slides.length - 1)
+      MDP.update_ui({ slides, idx, status })
+    })
+  },
+  update_ui: (json) => {
+    var slides = json.slides
+    var idx = json.idx
+    var status = json.status
+    slides.forEach(slide => slide.classList.remove('active'))
+    slides[idx].classList.add('active')
+    status.textContent = `${idx + 1} / ${slides.length}`
+  }
 }
 
 export default MDP

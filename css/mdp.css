@@ -17,3 +17,60 @@
 .-pane .-exercise {
   left: 100%;
 }
+
+.-slides img {
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.-slides img.active {
+  opacity: 1;
+}
+
+.-slides {
+  width: 95vw;
+  margin: 0 auto;
+  max-width: 480px;
+  height: 95vw;
+  max-height: 480px;
+}
+
+.-controls {
+  text-align: center;
+  margin: 5px 0;
+}
+.-controls .-control {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  background-color: white;
+  cursor: pointer;
+}
+.-controls .-control.-prev::before,
+.-controls .-control.-next::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--darkOrange);
+  border-left: unset;
+  border-bottom: unset;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(-135deg);
+}
+.-controls .-control.-next::before {
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+.-controls .-control.-prev {
+
+}
+.-controls .-control.-next {
+
+}
+.-controls .-status {
+  margin: 0 5px;
+}
