@@ -23,7 +23,6 @@ let MDP = {
   render: async () => {
     let request = Utils.parseRequestURL()
     let datum = await getDatum(request.id)
-    console.log('datum', datum)
 
     return MDP[datum.type](datum)
   },
@@ -43,7 +42,6 @@ let MDP = {
     var count = parseInt(datum.id.split('-')[1])
     var images = new Array(count).fill(count)
     .map((i,v) => path + (v + 1) + '.jpg')
-    console.log('images', images, 'count', count)
     return /*html*/`
     <div class="-row -main">
       <div class="-title">${datum.name}</div>
