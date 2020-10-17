@@ -7,23 +7,27 @@ let Home = {
     <div class="-row -main">
     
       <a href="/#/mlp/max-7---rodtheney" class="-banner -single">
-        <img src="./img/designs/fl-max7-3d.jpg" alt="doublebanner"/>
+        <img src="./img/designs/fl-max7-3d.jpg" alt="max 7 rodTheNey"/>
       </a>
             
       <div class="-banner -double">
         <a href="/#/mlp/the-bible-project" class="-inlineblock -vamiddle -posrel">
-          <img src="./img/designs/mfl-tbp.jpg" alt="doublebanner"/>
+          <img src="./img/designs/mfl-tbp.jpg" alt="the bible project"/>
         </a><a href="/#/mlp/superbook" data-filter="superbook" class="-double -inlineblock -vamiddle -posrel">
-          <img src="./img/designs/mfl-superbook.jpg" alt="doublebanner"/>
+          <img src="./img/designs/mfl-superbook.jpg" alt="superbook"/>
         </a>
       </div>
     
       <a href="/#/mlp/the-animated-series" class="-banner -single">
-        <img src="./img/designs/fl-bas.jpg" alt="doublebanner"/>
+        <img src="./img/designs/fl-bas.jpg" alt="the animated series"/>
       </a>
       
-      <a href="/#/mdp/slide1-7" class="-banner -single">
-        <img src="./img/designs/fl-pcc.jpg" alt="doublebanner"/>
+      <a href="/#/mdp/pace-christian-cartoons~44" class="-banner -single">
+        <img src="./img/designs/fl-pcc.jpg" alt="pace christian cartoon"/>
+      </a>
+      
+      <a href="/#/mlp/ad-bible-school" class="-banner -single">
+        <img src="./img/designs/fl-ad-bible-school.jpg" alt="ad bible school"/>
       </a>
       
     </div>

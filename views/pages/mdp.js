@@ -24,7 +24,7 @@ let MDP = {
     let request = Utils.parseRequestURL()
     let datum = await getDatum(request.id)
 
-    return MDP[datum.type](datum)
+    return datum ? MDP[datum.type](datum) : ''
   },
   video: (datum) => {
     return /*html*/`
@@ -38,10 +38,12 @@ let MDP = {
     `
   },
   slideshow: (datum) => {
-    var path = './img/designs/pace-christian-cartoons/'
-    var count = parseInt(datum.id.split('-')[1])
+    var pieces = datum.id.split('~')
+    var path = './img/designs/' + pieces[0] + '/'
+    var count = parseInt(pieces[1])
     var images = new Array(count).fill(count)
     .map((i,v) => path + (v + 1) + '.jpg')
+    
     return /*html*/`
     <div class="-row -main">
       <div class="-title">${datum.name}</div>
