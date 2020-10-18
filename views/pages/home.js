@@ -6,15 +6,15 @@ let Home = {
     <title>home</title>
     <div class="-row -main">
     
-    <a href="/#/mdp/pace-christian-cartoons~44" class="-banner -single">
+    <a href="/#/mdp/pace-christian-cartoons~100" class="-banner -single">
       <img src="./img/designs/fl-pcc.jpg" alt="pace christian cartoon"/>
     </a>
     
     <div class="-banner -double">
-      <a href="/#/mdp/ramsay-christian-cartoons~18" class="-inlineblock -vamiddle -posrel">
+      <a href="/#/mdp/ramsay-christian-cartoons~48" class="-inlineblock -vamiddle -posrel">
         <img src="./img/designs/mfl-ramsay-christian-cartoons.jpg" alt="the bible project"/>
-      </a><a href="/#/mlp/wisdom-for-dominion" class="-double -inlineblock -vamiddle -posrel">
-        <img src="./img/designs/mfl-wfd.jpg" alt="wisdom for dominion"/>
+      </a><a href="/#/mlp/the-bible-project" class="-inlineblock -vamiddle -posrel">
+        <img src="./img/designs/mfl-tbp.jpg" alt="the bible project"/>
       </a>
     </div>
       <a href="/#/mlp/max-7---rodtheney" class="-banner -single">
@@ -22,9 +22,9 @@ let Home = {
       </a>
             
       <div class="-banner -double">
-        <a href="/#/mlp/the-bible-project" class="-inlineblock -vamiddle -posrel">
-          <img src="./img/designs/mfl-tbp.jpg" alt="the bible project"/>
-        </a><a href="/#/mlp/superbook" class="-double -inlineblock -vamiddle -posrel">
+      <a href="/#/mlp/wisdom-for-dominion" class="-double -inlineblock -vamiddle -posrel">
+        <img src="./img/designs/mfl-wfd.jpg" alt="wisdom for dominion"/>
+      </a><a href="/#/mlp/superbook" class="-double -inlineblock -vamiddle -posrel">
           <img src="./img/designs/mfl-superbook.jpg" alt="superbook"/>
         </a>
       </div>
