@@ -26,7 +26,9 @@ let AppShell = {
         <div class="-search -posabs"></div>
       </div>
       <div class="-nav-list">
-        <a href="/#/" data-filter="home" class="-nav-item">Home</div>
+        <a href="/#/" class="-nav-item">Home</a>
+        <div class="-nav-item">sc-name: site-static-oct-18-8-48</div>
+        <div class="-nav-item">dc-name: site-dynamic-oct-18-8-48</div>
         <!-- <a data-filter="mlp" class="-nav-item">Manual Listing Page</a>
         <a data-filter="mdp" class="-nav-item">Material Detail Page</a>
         <div data-page="" class="-nav-item">Auth</div>

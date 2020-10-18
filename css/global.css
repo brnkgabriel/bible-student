@@ -46,6 +46,11 @@ body {
   margin-bottom: 64px;
 }
 
+.-container a {
+  text-decoration: unset;
+  color: var(--onSurfaceColor);
+}
+
 .-posrel {
   position: relative;
 }
@@ -79,5 +84,19 @@ body {
   text-transform: uppercase;
   font-weight: 500;
   color: var(--gray);
+  padding: 8px;
+}
+
+.-homepage {
+  padding: 10px;
+  background-color: var(--textOrange);
+  color: var(--onSurfaceColor);
+  text-transform: uppercase;
+  display: inline-block;
+  margin: 5px 0;
+  font-weight: 600;
+}
+
+#message {
   padding: 8px;
 }

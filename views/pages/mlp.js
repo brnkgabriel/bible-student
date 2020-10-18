@@ -4,7 +4,7 @@ import Utils from '../../services/Utils.js'
 let getData = async (id) => {
   try {
     let data = await Utils.data()
-    let json = data.filter(datum => datum.filter === id)
+    let json = data.filter(datum => datum.filter == id)
     return json
   } catch (err) {
     console.log('Error getting documents', err)

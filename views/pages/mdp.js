@@ -1,6 +1,7 @@
 // @ts-check
 import Utils from '../../services/Utils.js'
 
+
 let getDatum = async (id) => {
   // const options = {
   //   method: 'GET',
@@ -63,32 +64,28 @@ let MDP = {
     </div>
     `
   },
-  after_render: async () => {
-    var idx = 0
+  slide_idx: 0,
+  after_render: () => {
+    MDP.slide_idx = 0
     var slides = document.querySelectorAll('.-slides img')
     var prev = document.querySelector('.-controls .-control.-prev')
     var next = document.querySelector('.-controls .-control.-next')
     var status = document.querySelector('.-controls .-status')
 
-    next.addEventListener('click', () => {
-      idx++;
-      (idx === slides.length) && (idx = 0)
-      MDP.update_ui({ slides, idx, status })
-    })
-
-    prev.addEventListener('click', () => {
-      idx--;
-      (idx === -1) && (idx = slides.length - 1)
-      MDP.update_ui({ slides, idx, status })
-    })
+    if (next && prev) {
+      next.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'next' }))
+      prev.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'prev' }))
+    }
   },
   update_ui: (json) => {
-    var slides = json.slides
-    var idx = json.idx
-    var status = json.status
-    slides.forEach(slide => slide.classList.remove('active'))
-    slides[idx].classList.add('active')
-    status.textContent = `${idx + 1} / ${slides.length}`
+    if (json.btn === 'next')
+      (MDP.slide_idx === json.slides.length - 1) ? MDP.slide_idx = 0 : MDP.slide_idx++
+    else
+      (MDP.slide_idx === 0) ? MDP.slide_idx = json.slides.length - 1 : MDP.slide_idx--
+
+    json.slides.forEach(slide => slide.classList.remove('active'))
+    json.slides[MDP.slide_idx].classList.add('active')
+    json.status.textContent = `${MDP.slide_idx + 1} / ${json.slides.length}`
   }
 }
 
