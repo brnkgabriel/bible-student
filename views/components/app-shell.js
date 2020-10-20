@@ -15,15 +15,6 @@ let AppShell = {
     <div class="-footer -posfix">
       <div class="-nav -posrel">
         <div class="-hamburger -posabs"></div>
-        <div class="-search-input-loader -posabs">
-          <div class="-search-input">
-            <input id="search" placeholder="How can we help you?" type="text" />
-          </div>
-          <div id="preloader" class="-posabs">
-            <img class="icon" src="./img/bolt.png" alt="_img" />
-          </div>
-        </div>
-        <div class="-search -posabs"></div>
       </div>
       <div class="-nav-list">
         <a href="/#/" class="-nav-item">Home</a>
@@ -49,7 +40,6 @@ let AppShell = {
     
     var footer = document.querySelector('.-footer')
     var hamburger = document.querySelector('.-hamburger')
-    var search = document.querySelector('.-search')
 
 
     hamburger.addEventListener('click', () => {
@@ -58,14 +48,6 @@ let AppShell = {
         footer.setAttribute('data-action', '')
       } else {
         footer.setAttribute('data-action', 'show')
-      }
-    })
-    search.addEventListener('click', () => {
-      var navAction = footer.getAttribute('data-action')
-      if (navAction === 'search') {
-        footer.setAttribute('data-action', '')
-      } else {
-        footer.setAttribute('data-action', 'search')
       }
     })
   }

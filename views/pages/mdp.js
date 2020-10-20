@@ -1,4 +1,4 @@
-// @ts-check
+
 import Utils from '../../services/Utils.js'
 
 
@@ -60,6 +60,7 @@ let MDP = {
         <div class="-control -prev -inlineblock -vamiddle -posrel"></div>
         <div class="-status -inlineblock -vamiddle">1 / ${count}</div>
         <div class="-control -next -inlineblock -vamiddle -posrel"></div>
+        <input id="goto" placeholder="slide no." type="number" />
       </div>
     </div>
     `
@@ -71,18 +72,33 @@ let MDP = {
     var prev = document.querySelector('.-controls .-control.-prev')
     var next = document.querySelector('.-controls .-control.-next')
     var status = document.querySelector('.-controls .-status')
+    /**
+     * @type {HTMLElement}
+     */
+    var goto_input = document.getElementById('goto')
 
     if (next && prev) {
       next.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'next' }))
       prev.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'prev' }))
     }
+
+    goto_input.addEventListener('keyup', () => {
+      var value = parseInt(goto_input.value)
+      if (!isNaN(value) && value < slides.length){
+        MDP.update_ui({ slides, status, btn: 'goto', goto: goto_input })
+      }
+    })
   },
   update_ui: (json) => {
     if (json.btn === 'next')
       (MDP.slide_idx === json.slides.length - 1) ? MDP.slide_idx = 0 : MDP.slide_idx++
-    else
+    else if (json.btn === 'prev')
       (MDP.slide_idx === 0) ? MDP.slide_idx = json.slides.length - 1 : MDP.slide_idx--
+    else MDP.slide_idx = parseInt(json.goto.value) - 1
 
+    MDP.update_slide(json)
+  },
+  update_slide: (json) => {
     json.slides.forEach(slide => slide.classList.remove('active'))
     json.slides[MDP.slide_idx].classList.add('active')
     json.status.textContent = `${MDP.slide_idx + 1} / ${json.slides.length}`
