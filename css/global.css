@@ -46,6 +46,10 @@ body {
   margin-bottom: 64px;
 }
 
+.-hide {
+  display: none !important;
+}
+
 .-container a {
   text-decoration: unset;
   color: var(--onSurfaceColor);
