@@ -1,14 +1,14 @@
 
 .-mkufloor {
+  height: 100%;
 }
 
 .-mkufloor .-mkus {
   margin-top: 8px;
+  height: calc(100% - 36px);
+  overflow: auto;
 }
 
-.-mkufloor .-mkus {
-
-}
 .-mkufloor .-mkus .-mku {
   cursor: pointer;
   display: block;
@@ -28,6 +28,14 @@
   background-position: center;
   background-size: 110%;
   background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.-mkufloor .-mkus .-mku .-img img {
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%,-50%) scale(1.1);
 }
 
 .-mkufloor .-mkus .-mku .-details {

@@ -1,0 +1,143 @@
+.-container {
+  height: 100vh;
+  margin: 0 auto !important;
+  margin-bottom: unset !important;
+}
+.-main {
+  height: calc(100vh - 112px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  margin: unset !important;
+  overflow: hidden;
+}
+.-view {
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+  left: 200%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.-view.active {
+  left: 50%;
+}
+
+/* MLP */
+.-mlp {
+}
+
+/* Home */
+.-banner {
+  height: 40vw !important;
+  max-height: 192px;
+}
+
+/* Footer */
+.-nav-items {
+  top: 50%;
+  left: 16px;
+  transform: translateY(-50%);
+}
+.-nav-items .-item {
+  display: inline-block;
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin: 0 5px;
+  box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2);
+  padding: 10px;
+  background-color: #f90;
+  cursor: pointer;
+}
+.-nav-items .-item.-back {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+
+.-nav-items .-item.-back::before,
+.-nav-items .-item.-back::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid black;
+  border-right: unset;
+  border-bottom: unset;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+
+.-nav-items .-item.-back::after {
+  height: 2px;
+  width: 15px;
+  border: unset;
+  background-color: black;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+/* Preloader */
+
+.-preloader {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  left: calc(50% - 3px);
+  border-radius: 6px;
+  background-color: var(--darkOrange);
+  transform-origin: 50% 50%;
+  opacity: 0;
+  animation: cssload-loader 1.15s ease-in-out;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.-preloader.-loading {
+  opacity: 1;
+  animation: cssload-loader 1.15s ease-in-out infinite;
+}
+
+.-preloader::before,
+.-preloader::after {
+  content: '';
+  position: absolute;
+  background-color: var(--darkOrange);
+  top: 0px;
+  left: -12px;
+  height: 6px;
+  width: 6px;
+  border-radius: 6px;
+}
+
+.-preloader::after {
+  left: 12px;
+}
+
+@keyframes cssload-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+/* lazy-loading */
+
+img.lazy-image {
+  opacity: 0.1;
+  will-change: opacity;
+  transition: all 0.3s;
+}
+img.lazy-image.loaded {
+  opacity: 1;
+}

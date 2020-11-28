@@ -16,6 +16,7 @@ let MLP = {
   data: [],
   shouldHaveThumbnails: ['the-bible-project'],
   requestID: null,
+  threeDCube: null,
   render: async () => {
     let request = Utils.parseRequestURL()
     // let data = await getData(request.id)
@@ -143,9 +144,15 @@ let MLP = {
     var thumbnails = document.querySelector('.-thumbnails')
     var idx = MLP.shouldHaveThumbnails.findIndex(thumb => thumb === MLP.requestID)
 
+    window.addEventListener('hashchange', evt => {
+      MLP.threeDCube && MLP.threeDCube.stop()
+      MLP.threeDCube = null
+      console.log('listened for hash change in MLP')
+    })
+
     if (idx !== -1) {
       thumbnails.classList.remove('-hide')
-      new ThreeDCubeController()
+      MLP.threeDCube = new ThreeDCubeController()
       var faces = document.querySelectorAll('.three-d-cube .three-d-item')
       var mkus = document.querySelector('.-mkus')
       faces.forEach(face => {

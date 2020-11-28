@@ -21,11 +21,13 @@ let getDatum = async (id) => {
 }
 
 let MDP = {
+  datum: {},
   render: async () => {
     let request = Utils.parseRequestURL()
     let datum = await getDatum(request.id)
+    MDP.datum = datum
 
-    return datum ? MDP[datum.type](datum) : ''
+    return MDP.datum ? MDP[MDP.datum.type](datum) : ''
   },
   video: (datum) => {
     return /*html*/`
@@ -67,27 +69,30 @@ let MDP = {
   },
   slide_idx: 0,
   after_render: () => {
-    MDP.slide_idx = 0
-    var slides = document.querySelectorAll('.-slides img')
-    var prev = document.querySelector('.-controls .-control.-prev')
-    var next = document.querySelector('.-controls .-control.-next')
-    var status = document.querySelector('.-controls .-status')
-    /**
-     * @type {HTMLElement}
-     */
-    var goto_input = document.getElementById('goto')
+    if (MDP.datum.type === 'slideshow')  {
 
-    if (next && prev) {
-      next.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'next' }))
-      prev.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'prev' }))
-    }
-
-    goto_input.addEventListener('keyup', () => {
-      var value = parseInt(goto_input.value)
-      if (!isNaN(value) && value < slides.length){
-        MDP.update_ui({ slides, status, btn: 'goto', goto: goto_input })
+      MDP.slide_idx = 0
+      var slides = document.querySelectorAll('.-slides img')
+      var prev = document.querySelector('.-controls .-control.-prev')
+      var next = document.querySelector('.-controls .-control.-next')
+      var status = document.querySelector('.-controls .-status')
+      /**
+       * @type {HTMLElement}
+       */
+      var goto_input = document.getElementById('goto')
+  
+      if (next && prev) {
+        next.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'next' }))
+        prev.addEventListener('click', () => MDP.update_ui({ slides, status, btn: 'prev' }))
       }
-    })
+  
+      goto_input.addEventListener('keyup', () => {
+        var value = parseInt(goto_input.value)
+        if (!isNaN(value) && value < slides.length){
+          MDP.update_ui({ slides, status, btn: 'goto', goto: goto_input })
+        }
+      })
+    }
   },
   update_ui: (json) => {
     if (json.btn === 'next')

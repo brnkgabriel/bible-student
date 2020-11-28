@@ -38,7 +38,7 @@ export default class ThreeDCubeController {
     this.interval = null
 
     this.turn.addEventListener('click', () => {
-      clearInterval(this.interval)
+      this.stop()
       this.update()
     })
     
@@ -46,15 +46,19 @@ export default class ThreeDCubeController {
 
       if (window.scrollY > this.thumb_point) {
         // fn.add('-sticky')
-        clearInterval(this.interval)
+        this.stop()
         this.turnCube()
       } else {
         // fn.remove('-sticky')
-        clearInterval(this.interval)
+        this.stop()
       }
     })
 
     this.turnCube()
+  }
+  
+  stop() {
+    clearInterval(this.interval)
   }
 
   turnCube() {

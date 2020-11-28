@@ -52,6 +52,10 @@
   top: 50%;
 }
 
+.-link {
+  position: relative;
+}
+
 .-banner.-single > div {
   width: 100%;
 }
