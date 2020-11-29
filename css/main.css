@@ -1,3 +1,25 @@
 .-main:not(.-posrel) {
   margin-top: 64px;
 }
+.-main {
+  height: calc(100vh - 112px);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  margin: unset !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.-view {
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+  left: 200%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.-view.active {
+  left: 50%;
+}

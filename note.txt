@@ -1,0 +1,7 @@
+feature requests
+. update view based on url
+. put bread crumb to trace path of navigation from homepage. The crumb may be hidden and if so we'll use an array where we stack and pop navigations upon click into and click on the back buttons
+
+. up next
+1. state management
+2. using url to manipulate state

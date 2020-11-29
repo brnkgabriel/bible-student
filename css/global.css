@@ -38,12 +38,12 @@ body {
 
 .-container {
   width: 100%;
+  height: 100vh;
   max-width: 480px;
   margin: 0 auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 0.9em;
   color: var(--onSurfaceColor);
-  margin-bottom: 64px;
 }
 
 .-hide {
@@ -103,4 +103,63 @@ body {
 
 #message {
   padding: 8px;
+}
+
+.-preloader {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  left: calc(50% - 3px);
+  border-radius: 6px;
+  background-color: var(--darkOrange);
+  transform-origin: 50% 50%;
+  opacity: 0;
+  animation: cssload-loader 1.15s ease-in-out;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.-preloader.-loading {
+  opacity: 1;
+  animation: cssload-loader 1.15s ease-in-out infinite;
+}
+
+.-preloader::before,
+.-preloader::after {
+  content: '';
+  position: absolute;
+  background-color: var(--darkOrange);
+  top: 0px;
+  left: -12px;
+  height: 6px;
+  width: 6px;
+  border-radius: 6px;
+}
+
+.-preloader::after {
+  left: 12px;
+}
+
+@keyframes cssload-loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+
+/* lazy-loading */
+
+img.lazy-image {
+  opacity: 0.1;
+  will-change: opacity;
+  transition: all 0.3s;
+}
+img.lazy-image.loaded {
+  opacity: 1;
 }
