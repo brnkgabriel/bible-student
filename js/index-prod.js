@@ -1,32 +1,10 @@
-// @ts-check
 
-/**
- * @typedef {object} CustomRef
- * @property {Util} util The button to jump to the first slide
- * @property {Home} home The button to move to the previous slide
- * @property {MLP} mlp The button to advance to the next slide
- * @property {MDP} mdp The button to advance to the last slide
- */
-
-/**
- * @typedef {object} Material
- * @property {string} author author of the material
- * @property {string} desc description of the material
- * @property {string} filter sub category of the material
- * @property {string} host platform that hosts the material
- * @property {string} id id of the material
- * @property {string} name the name of the material
- * @property {string} type the type of the material
- */
 class ViewController {
   constructor() {
 
   }
 
   lazyLoad(view) {
-    /**
-     * @type {HTMLElement}
-     */
     var viewEl = document.querySelector('.-view.-' + view)
     var imageObserver = new ImageObserver(viewEl)
     imageObserver = null
@@ -39,17 +17,9 @@ class ViewController {
 
 class Util {
   constructor(json) {
-    /**
-     * @type {Material[]} expanded material data 
-     */
     this.data = this.expand(json)
   }
 
-  /**
-   * 
-   * @param {string} src the location of the image to load
-   * @param {HTMLElement} parent that hosts the image element
-   */
   createImage(src, parent) {
     var img = new Image();
     img.src = src;
@@ -64,12 +34,7 @@ class Util {
       parent.appendChild(new Text("Could not load image :("))
     })
   }
-  
-  /**
-   * 
-   * @param {string} src the location of the image to load
-   * @param {HTMLElement} parent that hosts the image as background
-   */
+
   createImageBg(src, parent) {
     var img = new Image()
     img.src = src
@@ -122,9 +87,6 @@ class Tag {
     this.element = null
   }
 
-  /**
-   * @returns {HTMLElement}
-   */
   get() {
     return this.init()
       .setAttributes()
@@ -138,11 +100,6 @@ class Tag {
     return this
   }
 
-  /**
-   * 
-   * @param {object} properties properties of the markup
-   * @returns {HTMLElement}
-   */
   static create(properties) {
     return new Tag(properties).get()
   }
@@ -238,10 +195,6 @@ class ImageObserver {
     })
   }
 
-  /**
-   * 
-   * @param {IntersectionObserverEntry} image 
-   */
   removeLoader(image) {
     var parent = image.target.parentElement
     var preloader = parent.querySelector('.-preloader')
@@ -296,28 +249,15 @@ class MLP extends ViewController {
     super()
     this.name = 'Manual Listing Page'
     this.mkus = document.querySelector('.-mkus')
-    /**
-     * @type {Material[]}
-     */
     this.data = []
 
-    /**
-     * @type {HTMLElement[]}
-     */
     this.links = []
 
-    /**
-     * @type {Util}
-     */
     this.util = util
 
     this.thumbnail = id => 'https://img.youtube.com/vi/' + id + '/0.jpg'
   }
 
-  /**
-   * 
-   * @param {Material[]} data 
-   */
   populate(data) {
     this.data = data
     this.links = []
@@ -363,92 +303,32 @@ class MDP extends ViewController {
   constructor() {
     super()
     this.name = 'Material Detail Page'
-    this.data = {}
-    this.imageObserver = null
-
-    // slides
-    this.slideCount = 0
-    this.slideNum = 1
     this.material = document.querySelector('.-pane iframe.-material')
-    this.slideStatus = document.querySelector('.-slideshow .-status')
-    this.slideParent = document.querySelector('.-slides')
-    this.slideImg = document.querySelector('.-slides .lazy-image')
-    this.preloader = document.querySelector('.-slides .-preloader')
-    this.gotoSlide = document.getElementById('goto')
-    this.prevSlide = document.querySelector('.-control.-prev')
-    this.nextSlide = document.querySelector('.-control.-next')
+    this.data = []
 
     this.youtubesrc = id => 'https://www.youtube.com/embed/' + id
-    this.slidesrc = id => './img/designs/' + id + '.jpg'
-    
-    this.listeners()
   }
 
   build(data) {
     // this.mdp.populate(this.currentView.data)
   }
 
-  listeners() {
-    // @ts-ignore
-    this.gotoSlide.addEventListener('keyup', () => this.updateSlide(parseInt(this.gotoSlide.value)))
-    this.prevSlide.addEventListener('click', () => this.updateSlide(--this.slideNum))
-    this.nextSlide.addEventListener('click', () => this.updateSlide(++this.slideNum))
-  }
-
   populate(data) {
     this.data = data[0]
     this[this.data['type']]()
-    this.togglePane(this.data['type'])
     return this
   }
 
   video() {
     this.material.setAttribute('src', this.youtubesrc(this.data['id']))
-    return this
   }
 
-  slideshow() {
-    this.slideCount = parseInt(this.data.meta.split('-')[1])
-    this.updateSlide(1)
-    return this
-  }
+  slideshow(datum) {
 
-  updateSlide(num) {
-    num = parseInt(num)
-    // @ts-ignore
-    if (num > this.slideCount) {
-      this.slideNum = 1
-    } else if (num < 1) {
-      this.slideNum = this.slideCount
-    } else {
-      this.slideNum = num ? num : 1
-    }
-    // this.slideNum = (num && num <= this.slideCount && num > 0) ? num : 1
-    // console.log('this.slideNum', this.slideNum)
-    
-    var id = `${this.data.id}/${this.slideNum}`
-    this.slideImg.setAttribute('data-src', this.slidesrc(id))
-    this.slideImg.removeAttribute('src')
-    this.slideImg.classList.remove('loaded')
-    this.preloader.classList.add('-loading')
-    this.imageObserver = new ImageObserver(this.slideParent)
-    this.imageObserver = null
-    this.slideStatus.textContent = `${this.slideNum} / ${this.slideCount}`
-  }
-
-  togglePane(type) {
-    var panes = document.querySelectorAll('.-mdp .-pane')
-    panes.forEach(pane => pane.classList.add('-hide'))
-    var currentPane = document.querySelector('.-pane.-' + type)
-    currentPane.classList.remove('-hide')
   }
 }
 
 class Navigate {
-  /**
-   * @constructor
-   * @param {CustomRef} json 
-   */
   constructor(json) {
     this.navItems = document.querySelectorAll('.-nav-items .-item')
     this.bannerLinks = document.querySelectorAll('.-link:not(.-mku)')    
@@ -477,7 +357,7 @@ class Navigate {
   goto(item) {
     var selected = this.selected(item)
     this.currentView = {...selected, data: this.data(selected)}
-    // console.log('currentview', this.currentView)
+    console.log('currentview', this.currentView)
     this.updateViewData()
     .toggleView()
     .toggleBackBtn()
@@ -525,10 +405,6 @@ class Navigate {
     return {id, el: document.querySelector('.-view.-' + view), view}
   }
 
-  /**
-   * @param {HTMLElement} target the html element clicked
-   * @returns {string} the class to be viewed
-   */
   viewID(target) {
     var view = target.getAttribute('data-view')
     var id = target.getAttribute('data-id')

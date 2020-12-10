@@ -7,6 +7,12 @@
   position: relative;
   overflow: hidden;
 }
+
+.-pane.-slideshow {
+  max-height: unset;
+  height: 100%;
+  overflow: unset;
+}
 .-pane iframe,
 .-pane .-exercise {
   width: 100%;
@@ -15,18 +21,18 @@
   height: 100%;
 }
 .-pane .-exercise {
-  left: 100%;
+  left: 110%;
 }
 
 .-slides img {
   width: 100%;
   top: 0;
   left: 0;
-  opacity: 0;
+  /* opacity: 0; */
 }
 
 .-slides img.active {
-  opacity: 1;
+  /* opacity: 1; */
 }
 
 .-slides {
@@ -40,6 +46,10 @@
 .-controls {
   text-align: center;
   margin: 5px 0;
+}
+
+.-controls .-buttons {
+  width: 60%;
 }
 .-controls .-control {
   width: 50px;
