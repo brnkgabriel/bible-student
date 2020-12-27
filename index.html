@@ -14,19 +14,20 @@
   <link rel="apple-touch-icon" href="./img/icons/apple-touch-icon.png">
   <meta name="apple-mobile-web-app-status-bar" content="#ffba08">
   <meta name="theme-color" content="#ffba08">
+  <script src="http://172.20.10.2:8888/target/target-script-min.js"></script>
 </head>
 
 <body>
   
   <div class="-container -posrel">
-    <div class="-row -header -posfix">
+    <div class="-row -header -possti">
       <div class="-posabs -site">
         <img src="../img/logo.png" alt="logo" />
         <div class="-txt">Bible<br />Student</div>
       </div>
       <div class="-posabs -page">Home</div>
     </div>
-    <div class="-row -main -posabs">
+    <div class="-row -main -posrel">
       <div class="-mdp -view -posabs">
         <div class="-pane -video">
           <iframe class="-posabs -material" src="https://www.youtube.com/embed/xAFMg09bido">loading...</iframe>
@@ -83,21 +84,25 @@
         </div>
       </div>
       <div class="-home -view -posabs active">
-        <div data-view="mdp" data-id="pace-christian-cartoons" class="-banner -single -link" data-row="1" data-col="1">
+        <div data-view="mdp" data-id="pace-christian-cartoons" class="-banner -single -link" data-row="1" data-col="1" data-banner="banner11" data-category="banner">
           <span class="-preloader -loading"></span>
           <!-- <img src="../img/designs/fl-pcc.jpg" alt="pace christian cartoon" /> -->
         </div>
 
         <div class="-banner -double">
-          <div data-view="mdp" data-id="ramsay-christian-cartoons" class="-inlineblock -vamiddle -posrel -link" data-row="2" data-col="1">
+          <div data-view="mdp" data-id="ramsay-christian-cartoons" class="-inlineblock -vamiddle -posrel -link" data-row="2" data-col="1" data-banner="banner21" data-category="banner">
             <span class="-preloader -loading"></span>
             <!-- <img src="../img/designs/mfl-ramsay-christian-cartoons.jpg" alt="the bible project" /> -->
-          </div><div data-view="mlp" data-id="the-bible-project" class="-inlineblock -vamiddle -posrel -link -posrel" data-row="2" data-col="2">
+          </div><div data-view="mlp" data-id="the-bible-project" class="-inlineblock -vamiddle -posrel -link -posrel" data-row="2" data-col="2" data-banner="banner22" data-category="banner">
             <span class="-preloader -loading"></span>
             <!-- <img src="../img/designs/mfl-tbp.jpg" alt="the bible project" /> -->
           </div>
         </div>
-        <div data-view="mlp" data-id="max-7---rodtheney" class="-banner -single -link" data-row="3" data-col="1">
+        <div data-view="mlp" data-id="max-7---rodtheney" class="-banner -single -link" data-row="3" data-col="1" data-banner="banner31" data-category="banner">
+          <span class="-preloader -loading"></span>
+          <!-- <img src="../img/designs/fl-max7-3d.jpg" alt="max 7 rodTheNey" /> -->
+        </div>
+        <div data-view="mlp" data-id="the-animated-series" class="-banner -single -link" data-row="4" data-col="1" data-banner="banner41" data-category="banner">
           <span class="-preloader -loading"></span>
           <!-- <img src="../img/designs/fl-max7-3d.jpg" alt="max 7 rodTheNey" /> -->
         </div>
@@ -106,7 +111,7 @@
     <div class="-footer -posfix">
       <div class="-nav -posrel">
         <div class="-nav-items -posabs">
-          <div class="-item -back -hide" data-view="back"></div>
+          <div class="-item -back -hide" data-view="back" data-category="button" data-id="back"></div>
           <!-- <div class="-item -home" data-view="home">home</div> -->
           <!-- <div class="-item -mlp" data-view="mlp">mlp</div>
           <div class="-item -mdp" data-view="mdp">mdp</div> -->
@@ -129,12 +134,18 @@
     gtag('js', new Date());
 
     gtag('config', 'G-P1MHTW1WT1');
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
   </script>
   <!-- <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.19.0/firebase-firestore.js"></script>
   <script src="./js/database.js"></script> -->
-  <!-- <script src="./js/index-prod.js"></script> -->
-  <script src="./js/index.js"></script>
+  <script src="./js/index-prod.js"></script>
+  <!-- <script src="./js/prod.js"></script> -->
+  <!-- <script src="./js/index.js"></script> -->
   <!-- <script type="module" src="./js/router.js"></script> -->
   <!-- <script src="./js/app.js"></script> -->
 </body>

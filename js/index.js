@@ -64,7 +64,7 @@ class Util {
       parent.appendChild(new Text("Could not load image :("))
     })
   }
-  
+
   /**
    * 
    * @param {string} src the location of the image to load
@@ -84,7 +84,7 @@ class Util {
       parent.appendChild(new Text("Could not load image :("))
     })
   }
-  
+
   replacePattern(pattern, str) {
     var re = new RegExp(pattern, 'g')
     var replaced = str.replace(re, '-')
@@ -100,7 +100,10 @@ class Util {
 
   expand(skus) {
     return skus.map(sku => this.json(sku.split('|')))
-    .map(sku => { return { ...sku, filter: this.id(sku.author) } })
+      .map(sku => {
+        sku.filter = this.id(sku.author)
+        return sku
+      })
   }
 
   json(skuDetails) {
@@ -183,7 +186,7 @@ class Tag {
 class ImageObserver {
   constructor(parent) {
     this.images = parent.querySelectorAll('.lazy-image')
-    
+
     try {
       this.observer = new IntersectionObserver(this.onIntersection.bind(this), {})
       this.images.forEach(image => this.observer.observe(image))
@@ -257,15 +260,12 @@ class Home extends ViewController {
     this.banner21 = document.querySelector('.-link[data-row="2"][data-col="1"]')
     this.banner22 = document.querySelector('.-link[data-row="2"][data-col="2"]')
     this.banner31 = document.querySelector('.-link[data-row="3"]')
+    this.banner41 = document.querySelector('.-link[data-row="4"]')
 
     this.banners = banners
 
     this.util = util
 
-    // console.log('singleBanner11', this.banner11)
-    // console.log('doubleBanner21', this.banner21)
-    // console.log('doubleBanner21', this.banner22)
-    // console.log('singleBanner11', this.banner31)
     this.populate().lazyLoad('home')
   }
 
@@ -273,7 +273,7 @@ class Home extends ViewController {
     Object.keys(this.banners).map(key => this.buildBanner(key))
     return this
   }
-  
+
   buildBanner(key) {
     var view = this.banners[key].view
     var name = this.banners[key].name
@@ -325,24 +325,24 @@ class MLP extends ViewController {
     this.mkus.innerHTML = ''
     this.data.map(datum => {
       var prop = {
-        mku:      ['div', { class: '-mku -posrel -link', 'data-id': datum.id, 'data-view': 'mdp' }, '', ''],
-        imgP:      ['div', { class: '-posabs -img' }, '', ''],
-        img:       ['img', { class: 'lazy-image -posabs', 'data-src': this.thumbnail(datum.id)}, '', ''],
+        mku: ['div', { class: '-mku -posrel -link', 'data-id': datum.id, 'data-view': 'mdp', 'data-category': 'thumbnail' }, '', ''],
+        imgP: ['div', { class: '-posabs -img' }, '', ''],
+        img: ['img', { class: 'lazy-image -posabs', 'data-src': this.thumbnail(datum.id) }, '', ''],
         preloader: ['span', { class: '-preloader -loading' }, '', ''],
-        details:  ['div', { class: '-details -posabs' }, '', ''],
-        name:     ['div', { class: '-name' }, '', datum.name],
-        desc:     ['div', { class: '-desc' }, '', datum.desc],
-        author:   ['div', { class: '-author' }, '', datum.author]
+        details: ['div', { class: '-details -posabs' }, '', ''],
+        name: ['div', { class: '-name' }, '', datum.name],
+        desc: ['div', { class: '-desc' }, '', datum.desc],
+        author: ['div', { class: '-author' }, '', datum.author]
       }
 
-      var mku     = Tag.create(prop['mku'])
-      var imgP     = Tag.create(prop['imgP'])
-      var img     = Tag.create(prop['img'])
+      var mku = Tag.create(prop['mku'])
+      var imgP = Tag.create(prop['imgP'])
+      var img = Tag.create(prop['img'])
       var preloader = Tag.create(prop['preloader'])
       var details = Tag.create(prop['details'])
-      var name    = Tag.create(prop['name'])
-      var desc    = Tag.create(prop['desc'])
-      var author  = Tag.create(prop['author'])
+      var name = Tag.create(prop['name'])
+      var desc = Tag.create(prop['desc'])
+      var author = Tag.create(prop['author'])
 
 
       // var src     = this.thumbnail(datum.id)
@@ -380,7 +380,7 @@ class MDP extends ViewController {
 
     this.youtubesrc = id => 'https://www.youtube.com/embed/' + id
     this.slidesrc = id => './img/designs/' + id + '.jpg'
-    
+
     this.listeners()
   }
 
@@ -416,16 +416,11 @@ class MDP extends ViewController {
   updateSlide(num) {
     num = parseInt(num)
     // @ts-ignore
-    if (num > this.slideCount) {
-      this.slideNum = 1
-    } else if (num < 1) {
-      this.slideNum = this.slideCount
-    } else {
-      this.slideNum = num ? num : 1
-    }
+    this.setBoundary(num)
     // this.slideNum = (num && num <= this.slideCount && num > 0) ? num : 1
-    // console.log('this.slideNum', this.slideNum)
-    
+    this.updateUI()
+  }
+  updateUI() {
     var id = `${this.data.id}/${this.slideNum}`
     this.slideImg.setAttribute('data-src', this.slidesrc(id))
     this.slideImg.removeAttribute('src')
@@ -434,6 +429,16 @@ class MDP extends ViewController {
     this.imageObserver = new ImageObserver(this.slideParent)
     this.imageObserver = null
     this.slideStatus.textContent = `${this.slideNum} / ${this.slideCount}`
+  }
+
+  setBoundary(num) {
+    if (num > this.slideCount) {
+      this.slideNum = 1
+    } else if (num < 1) {
+      this.slideNum = this.slideCount
+    } else {
+      this.slideNum = num ? num : 1
+    }
   }
 
   togglePane(type) {
@@ -451,7 +456,7 @@ class Navigate {
    */
   constructor(json) {
     this.navItems = document.querySelectorAll('.-nav-items .-item')
-    this.bannerLinks = document.querySelectorAll('.-link:not(.-mku)')    
+    this.bannerLinks = document.querySelectorAll('.-link:not(.-mku)')
     this.views = document.querySelectorAll('.-main .-view')
 
     this.page = document.querySelector('.-header .-page')
@@ -459,10 +464,13 @@ class Navigate {
     this.navItems.forEach(item => item.addEventListener('click', () => this.goto(item)))
     this.bannerLinks.forEach(link => link.addEventListener('click', () => this.goto(link)))
 
-    this.paths = ['home:null']
+    /**
+     * @type {string[]}
+     */
+    this.paths = this.getLastPath() || ['home:null']
 
     this.currentView = {}
-    
+
     this.util = json['util']
     this.home = json['home']
     this.mlp = json['mlp']
@@ -472,22 +480,85 @@ class Navigate {
       mlp: 'manual listing page',
       mdp: 'material detail page'
     }
+    this.update(this.paths[this.paths.length - 1].split(':'))
+  }
+
+  /**
+   * @returns {string[]}
+   */
+  getLastPath() {
+    var paths = JSON.parse(localStorage.getItem('paths'))
+    return paths ? paths : null
   }
 
   goto(item) {
-    var selected = this.selected(item)
-    this.currentView = {...selected, data: this.data(selected)}
-    // console.log('currentview', this.currentView)
-    this.updateViewData()
-    .toggleView()
-    .toggleBackBtn()
+    this.measureEvent(item)
+    var _viewID = this.viewID(item)
+    this.update(_viewID)
+  }
+
+  measureEvent(item) {
+    var category = item.getAttribute('data-category')
+    var action = 'click'
+    var label = category === 'thumbnail' ? this.thumbnailLabel(item) : item.getAttribute('data-id')
+    // ga('send', 'event', 'Videos', 'play', 'Fall Campaign')
+    // @ts-ignore
+    ga('send', 'event', category, action, label);
+  }
+
+  thumbnailLabel(item) {
+    var name = item.querySelector('.-name').textContent
+    var author = item.querySelector('.-author').textContent
+    return this.util.id(name + ' ' + author)
+  }
+
+  /**
+   * 
+   * @param {string[]} _viewID a list of view & id
+   */
+  update(_viewID) {
+    var path = this.updatePaths(_viewID)
+    var selected = this.selected(path.split(':'))
+    selected.data = this.data(selected)
+    this.currentView = selected
+    this.updateViewData().toggleView().toggleBackBtn().updateLocalStorage()
+  }
+
+  updateLocalStorage() {
+    localStorage.setItem('paths', JSON.stringify(this.paths))
+  }
+
+  updatePaths(_viewID) {
+    var path = this.path(_viewID)
+    // if view class is the back button,
+    // pop the stack and return the previous view
+    // else push the view class to the stack and return the view
+    if (_viewID[0] === 'back') {
+      this.mdp.material.setAttribute('src', '');
+      (this.paths.length !== 1) && this.paths.pop()
+      return this.paths[this.paths.length - 1]
+    } else {
+      var idx = this.paths.findIndex(_path => _path === path);
+      (idx == -1) && this.paths.push(path)
+      return path
+    }
+  }
+
+  selected(_viewID) {
+    var view = _viewID[0]
+    var id = _viewID[1]
+    return { id, el: document.querySelector('.-view.-' + view), view }
+  }
+
+  path(_viewID) {
+    return _viewID[0] + ":" + _viewID[1]
   }
 
   updateViewData() {
     this.page.textContent = this.names[this.currentView.view]
     var updatefn = 'update' + this.currentView.view
     this[updatefn]()
-    return this 
+    return this
   }
 
   updatehome() {
@@ -500,7 +571,6 @@ class Navigate {
 
   updatemlp() {
     this.mlp.links.forEach(link => link.removeEventListener('click', () => this.goto(link)))
-    console.log('mlp data', this.currentView.data)
     this.mlp.populate(this.currentView.data).lazyLoad('mlp')
     this.mlp.links.forEach(link => link.addEventListener('click', () => this.goto(link)))
   }
@@ -517,32 +587,14 @@ class Navigate {
     }
   }
 
-  selected(target) {
-    var _viewID = this.viewID(target).split(':')
-    var view = _viewID[0]
-    var id = _viewID[1]
-
-    return {id, el: document.querySelector('.-view.-' + view), view}
-  }
-
   /**
    * @param {HTMLElement} target the html element clicked
-   * @returns {string} the class to be viewed
+   * @returns {string[]} the class to be viewed
    */
   viewID(target) {
     var view = target.getAttribute('data-view')
     var id = target.getAttribute('data-id')
-    var _viewID = view + ":" + id
-    // if view class is the back button,
-    // pop the stack and return the previous view
-    // else push the view class to the stack and return the view
-    if (view === 'back') {
-      (this.paths.length !== 1) && this.paths.pop()
-      return this.paths[this.paths.length - 1]
-    } else {
-      this.paths.push(_viewID)
-      return _viewID
-    }
+    return [view, id]
   }
 
   toggleView() {
@@ -555,13 +607,14 @@ class Navigate {
     var back = document.querySelector('.-item.-back')
     var fn = back.classList
     this.paths.length !== 1 ? fn.remove('-hide') : fn.add('-hide')
+    return this
   }
 }
 
 class Main {
   constructor() {
     this.self = this
-   this.banners = {
+    this.banners = {
       banner11: {
         name: 'Pace Christian Cartoons',
         src: '../img/designs/fl-pcc.jpg',
@@ -581,18 +634,23 @@ class Main {
         name: 'Max 7 - RodTheNey',
         src: '../img/designs/fl-max7-3d.jpg',
         view: 'mlp'
+      },
+      banner41: {
+        name: 'The Animated Series',
+        src: '../img/designs/fl-bas.jpg',
+        view: 'mlp'
       }
     }
-    
+
     this.authenticate()
     this.afterLogin()
   }
 
-  getData(){
+  getData() {
 
     // var response = await fetch('../services/data.json')
     return fetch('../services/data.json')
-    .then(response => response.json())
+      .then(response => response.json())
     // return await response.json()
   }
 
@@ -613,12 +671,12 @@ class Main {
       var home = new Home(this.banners, util)
       var mlp = new MLP(util)
       var mdp = new MDP()
-      new Navigate({util, home, mlp, mdp})
+      new Navigate({ util, home, mlp, mdp })
     })
   }
 }
 
-window.addEventListener('load', function(){
+window.addEventListener('load', function () {
   console.log('completely loaded')
   new Main()
 })

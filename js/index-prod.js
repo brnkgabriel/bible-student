@@ -1,391 +1,265 @@
-
-class ViewController {
-  constructor() {
-
+String.prototype.escape = function () {
+  var tagsToReplace = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
   }
-
-  lazyLoad(view) {
-    var viewEl = document.querySelector('.-view.-' + view)
-    var imageObserver = new ImageObserver(viewEl)
-    imageObserver = null
-  }
-
-  toString() {
-    return Object.getPrototypeOf(this).constructor.name
-  }
+  return this.replace(/[&<>]/g, function (tag) {
+    return tagsToReplace[tag] || tag
+  })
 }
 
-class Util {
-  constructor(json) {
-    this.data = this.expand(json)
-  }
+var Util = function (list) {
+  this.data = this.expand(list)
+  console.log('this.data', this.data)
+}
 
-  createImage(src, parent) {
-    var img = new Image();
-    img.src = src;
-    img.classList.add('lazy-image')
-    var preloader = parent.querySelector('.-preloader')
-    preloader.classList.add('-loading')
-    img.decode().then(() => {
-      preloader.classList.remove('-loading')
-      parent.appendChild(img)
-    }).catch(() => {
-      preloader.classList.remove('-loading')
-      parent.appendChild(new Text("Could not load image :("))
-    })
-  }
-
-  createImageBg(src, parent) {
-    var img = new Image()
-    img.src = src
-    img.classList.add('lazy-image')
-    var preloader = parent.querySelector('.-preloader')
-    preloader.classList.add('-loading')
-    img.decode().then(() => {
-      preloader.classList.remove('-loading')
-      parent.setAttribute('style', 'background-image: url(' + src + ')')
-    }).catch(() => {
-      preloader.classList.remove('-loading')
-      parent.appendChild(new Text("Could not load image :("))
-    })
-  }
-  
-  replacePattern(pattern, str) {
-    var re = new RegExp(pattern, 'g')
-    var replaced = str.replace(re, '-')
-    return replaced
-  }
-
-  id(name) {
-    var replacedApos = this.replacePattern("'", name)
-    var replaceAmp = this.replacePattern('&', replacedApos)
-    var replacePercnt = this.replacePattern('%', replaceAmp)
-    return replacePercnt.toLowerCase().split(' ').join('-')
-  }
-
-  expand(skus) {
-    return skus.map(sku => this.json(sku.split('|')))
-    .map(sku => { return { ...sku, filter: this.id(sku.author) } })
-  }
-
-  json(skuDetails) {
+Util.prototype = {
+  create: function (details) {
+    details.filter = this.id(details.author)
+    return details
+  },
+  expand: function (list) {
+    return list.map(each => this.json(each.split('|')))
+    .map(details => this.create(details))
+  },
+  json: function (eachList) {
     var obj = {}
-    skuDetails.map(property => {
-      var keyValue = property.split('=')
-      obj[keyValue[0]] = keyValue[1]
+    eachList.map(prop => {
+      var keyVal = prop.split('=')
+      obj[keyVal[0].escape()] = keyVal[1].escape()
     })
     return obj
-  }
+  },
+  id: function (str) {
+    var replaceApost = this.replacePattern("'", str)
+    var replaceAmper = this.replacePattern('&', replaceApost)
+    var replacePercn = this.replacePattern('%', replaceAmper)
+    return replacePercn.toLowerCase().split(' ').join('-')
+  },
+  replacePattern: function (pat, str) {
+    var patRegExp = new RegExp(pat, 'g')
+    return str.replace(patRegExp, '-')
+  },
 }
 
-class Tag {
-  constructor(properties) {
-    this.tag = properties[0]
-    this.attributes = properties[1]
-    this.styles = properties[2]
-    this.textContent = properties[3]
-    this.element = null
-  }
+Util.lazyLoad = function (view) {
+  var viewEl = document.querySelector('.-view.-' + view)
+  Util.observe(viewEl)
+}
 
-  get() {
+Util.observe = function (parent) {
+  var imageObserver = new ImageObserver(parent)
+  imageObserver = null
+}
+
+Util.select = function (query) {
+  return document.querySelector(query)
+}
+
+var Tag = function (properties) {
+  this.tag = properties[0]
+  this.attributes = properties[1]
+  this.styles = properties[2]
+  this.textContent = properties[3]
+  this.element = null
+}
+
+Tag.prototype = {
+  get: function () {
     return this.init()
-      .setAttributes()
-      .setStyle()
-      .setHTML()
-      .getElement()
-  }
-
-  init() {
+    .setAttributes()
+    .setStyle()
+    .setHTML()
+    .getElement()
+  },
+  init: function () {
     this.element = document.createElement(this.tag)
     return this
-  }
-
-  static create(properties) {
-    return new Tag(properties).get()
-  }
-
-  assignAttribute(object) {
-    var keys = Object.keys(object)
-    keys.forEach(key => {
-      var value = object[key]
+  },
+  assignAttribute: function (json) {
+    Object.keys(json).map(key => {
+      var value = json[key]
       this.element.setAttribute(key, value)
     })
-  }
-
-  setAttributes() {
+  },
+  setAttributes: function () {
     this.assignAttribute(this.attributes)
     return this
-  }
-
-  setStyle() {
+  },
+  setStyle: function () {
     this.assignAttribute(this.styles)
     return this
-  }
-
-  setHTML() {
+  },
+  setHTML: function () {
     this.element.innerHTML = this.textContent
     return this
-  }
-
-  getElement() {
+  },
+  getElement: function () {
     return this.element
   }
-
-  static appendMany2One(many, one) {
-    many.forEach(each => one.appendChild(each))
-  }
-
 }
 
-class ImageObserver {
-  constructor(parent) {
-    this.images = parent.querySelectorAll('.lazy-image')
-    
-    try {
-      this.observer = new IntersectionObserver(this.onIntersection.bind(this), {})
-      this.images.forEach(image => this.observer.observe(image))
-    } catch (error) {
-      this.lazyLoadImages()
-    }
-  }
+Tag.create = function (properties) {
+  return new Tag(properties).get()
+}
 
-  lazyLoadImages() {
+Tag.appendMany2One = function (many, one) {
+  many.forEach(each => one.appendChild(each))
+}
+
+var ImageObserver = function (parent) {
+  this.images = parent.querySelectorAll('.lazy-image')
+
+  try {
+    this.observer = new IntersectionObserver(this.onIntersection.bind(this), {})
+    this.images.forEach(image => this.observer.observe(image))
+  } catch (error) {
     this.images.forEach(image => this.lazyLoadImage(image))
-
-    // var image = document.getElementById('image');
-
-    // image.onload = function () {
-    //     alert ("The image has loaded!");        
-    // };
-    // setTimeout(function(){
-    //     image.src = "http://lorempixel.com/500/500";         
-    // }, 5000);
   }
+  // this.images.forEach(image => this.lazyLoadImage(image))
+}
 
-  lazyLoadImage(image) {
+ImageObserver.prototype = {
+  onIntersection: function (imageEntities) {
+    var self = this
+    imageEntities.forEach(image => {
+      if (image.isIntersecting) {
+        self.observer.unobserve(image.target)
+        image.target.src = image.target.dataset.src
+        image.target.onload = function () {
+          image.target.classList.add('loaded')
+          self.removeLoader(image.target)
+        }
+      }
+    })
+  },
+  lazyLoadImage: function (image) {
     var self = this
     if (!image.src) {
       image.src = image.getAttribute('data-src')
       image.onload = function () {
         image.classList.add('loaded')
-        self.removeLoaderBCompat(image)
+        self.removeLoader(image)
       }
     } else {
       image.classList.add('loaded')
-      self.removeLoaderBCompat(image)
+      self.removeLoader(image)
     }
-  }
-
-  removeLoaderBCompat(image) {
-    var parent = image.parentElement
+  },
+  removeLoader: function(target) {
+    var parent = target.parentElement
     var preloader = parent.querySelector('.-preloader')
     preloader.classList.remove('-loading')
   }
-
-  onIntersection(imageEntites) {
-    imageEntites.forEach(image => {
-      if (image.isIntersecting) {
-        this.observer.unobserve(image.target)
-        image.target.src = image.target.dataset.src
-        image.target.onload = () => {
-          image.target.classList.add('loaded')
-          this.removeLoader(image)
-        }
-      }
-    })
-  }
-
-  removeLoader(image) {
-    var parent = image.target.parentElement
-    var preloader = parent.querySelector('.-preloader')
-    preloader.classList.remove('-loading')
-  }
-
 }
 
-class Home extends ViewController {
-  constructor(banners, util) {
-    super()
-    this.banner11 = document.querySelector('.-link[data-row="1"]')
-    this.banner21 = document.querySelector('.-link[data-row="2"][data-col="1"]')
-    this.banner22 = document.querySelector('.-link[data-row="2"][data-col="2"]')
-    this.banner31 = document.querySelector('.-link[data-row="3"]')
+var Navigate = function (json) {
+  this.navLinks = document.querySelectorAll('.-nav-items .-item')
+  this.bannerLinks = document.querySelectorAll('.-link:not(.-mku)')
+  this.views = document.querySelectorAll('.-main .-view')
+  this.page = document.querySelector('.-header .-page')
 
-    this.banners = banners
+  this.navLinks.forEach(link => link.addEventListener('click', () => this.goto(link)))
+  this.bannerLinks.forEach(link => link.addEventListener('click', () => this.goto(link)))
 
-    this.util = util
+  this.paths = this.lastPath() || ['home:null']
 
-    // console.log('singleBanner11', this.banner11)
-    // console.log('doubleBanner21', this.banner21)
-    // console.log('doubleBanner21', this.banner22)
-    // console.log('singleBanner11', this.banner31)
-    this.populate().lazyLoad('home')
+  this.currentView = {}
+
+  this.util = json['util']
+  this.home = json['home']
+  this.mlp = json['mlp']
+  this.mdp = json['mdp']
+  this.names = {
+    home: 'home',
+    mlp: 'manual listing page',
+    mdp: 'material detail page'
   }
-
-  populate() {
-    Object.keys(this.banners).map(key => this.buildBanner(key))
-    return this
-  }
-  
-  buildBanner(key) {
-    var view = this.banners[key].view
-    var name = this.banners[key].name
-    var id = this.util.id(name)
-    var src = this.banners[key].src
-    var parent = this[key]
-    parent.setAttribute('data-view', view)
-    parent.setAttribute('data-id', id)
-
-    var img = document.createElement('img')
-    img.classList.add('lazy-image')
-    img.setAttribute('data-src', src)
-    parent.appendChild(img)
-    // this.util.createImage(src, parent)
-  }
+  this.update(this.paths[this.paths.length - 1].split(':'))
 }
 
-class MLP extends ViewController {
-  constructor(util) {
-    super()
-    this.name = 'Manual Listing Page'
-    this.mkus = document.querySelector('.-mkus')
-    this.data = []
-
-    this.links = []
-
-    this.util = util
-
-    this.thumbnail = id => 'https://img.youtube.com/vi/' + id + '/0.jpg'
-  }
-
-  populate(data) {
-    this.data = data
-    this.links = []
-    // <span class="-preloader -loading"></span>
-    this.mkus.innerHTML = ''
-    this.data.map(datum => {
-      var prop = {
-        mku:      ['div', { class: '-mku -posrel -link', 'data-id': datum.id, 'data-view': 'mdp' }, '', ''],
-        imgP:      ['div', { class: '-posabs -img' }, '', ''],
-        img:       ['img', { class: 'lazy-image -posabs', 'data-src': this.thumbnail(datum.id)}, '', ''],
-        preloader: ['span', { class: '-preloader -loading' }, '', ''],
-        details:  ['div', { class: '-details -posabs' }, '', ''],
-        name:     ['div', { class: '-name' }, '', datum.name],
-        desc:     ['div', { class: '-desc' }, '', datum.desc],
-        author:   ['div', { class: '-author' }, '', datum.author]
-      }
-
-      var mku     = Tag.create(prop['mku'])
-      var imgP     = Tag.create(prop['imgP'])
-      var img     = Tag.create(prop['img'])
-      var preloader = Tag.create(prop['preloader'])
-      var details = Tag.create(prop['details'])
-      var name    = Tag.create(prop['name'])
-      var desc    = Tag.create(prop['desc'])
-      var author  = Tag.create(prop['author'])
-
-
-      // var src     = this.thumbnail(datum.id)
-      // imgP.appendChild(preloader)
-      // this.util.createImageBg(src, img)
-
-      Tag.appendMany2One([preloader, img], imgP)
-      Tag.appendMany2One([name, desc, author], details)
-      Tag.appendMany2One([imgP, details], mku)
-      this.links.push(mku)
-      this.mkus.appendChild(mku)
-    })
-    return this
-  }
-}
-
-class MDP extends ViewController {
-  constructor() {
-    super()
-    this.name = 'Material Detail Page'
-    this.material = document.querySelector('.-pane iframe.-material')
-    this.data = []
-
-    this.youtubesrc = id => 'https://www.youtube.com/embed/' + id
-  }
-
-  build(data) {
-    // this.mdp.populate(this.currentView.data)
-  }
-
-  populate(data) {
-    this.data = data[0]
-    this[this.data['type']]()
-    return this
-  }
-
-  video() {
-    this.material.setAttribute('src', this.youtubesrc(this.data['id']))
-  }
-
-  slideshow(datum) {
-
-  }
-}
-
-class Navigate {
-  constructor(json) {
-    this.navItems = document.querySelectorAll('.-nav-items .-item')
-    this.bannerLinks = document.querySelectorAll('.-link:not(.-mku)')    
-    this.views = document.querySelectorAll('.-main .-view')
-
-    this.page = document.querySelector('.-header .-page')
-
-    this.navItems.forEach(item => item.addEventListener('click', () => this.goto(item)))
-    this.bannerLinks.forEach(link => link.addEventListener('click', () => this.goto(link)))
-
-    this.paths = ['home:null']
-
-    this.currentView = {}
-    
-    this.util = json['util']
-    this.home = json['home']
-    this.mlp = json['mlp']
-    this.mdp = json['mdp']
-    this.names = {
-      home: 'home',
-      mlp: 'manual listing page',
-      mdp: 'material detail page'
-    }
-  }
-
-  goto(item) {
-    var selected = this.selected(item)
-    this.currentView = {...selected, data: this.data(selected)}
-    console.log('currentview', this.currentView)
+Navigate.prototype = {
+  goto: function (link) {
+    var _viewID = this.viewID(link)
+    this.update(_viewID)
+  },
+  lastPath: function () {
+    var paths = JSON.parse(localStorage.getItem('paths'))
+    return paths ? paths : null
+  },
+  update: function (_viewID) {
+    var path = this.updatePaths(_viewID)
+    var selected = this.selected(path.split(':'))
+    selected.data = this.data(selected)
+    this.currentView = selected
     this.updateViewData()
     .toggleView()
     .toggleBackBtn()
-  }
-
-  updateViewData() {
-    this.page.textContent = this.names[this.currentView.view]
-    var updatefn = 'update' + this.currentView.view
+    .updateLocalStorage()
+  },
+  updatePaths: function (_viewID) {
+    var path = this.path(_viewID)
+    // if view class is the back button,
+    // pop the stack and return the previous view
+    // else push the view class to the stack and return the view
+    if (_viewID[0] === 'back') {
+      this.mdp.material.setAttribute('src', '');
+      (this.paths.length !== 1) && this.paths.pop()
+      return this.paths[this.paths.length - 1]
+    } else {
+      var idx = this.paths.findIndex(_path => _path === path);
+      (idx == -1) && this.paths.push(path)
+      return path
+    }
+  },
+  updateViewData: function () {
+    var view = this.currentView.view
+    this.page.textContent = this[view].name
+    var updatefn = 'update' + view
     this[updatefn]()
-    return this 
-  }
-
-  updatehome() {
-
-  }
-
-  updatemdp() {
+    return this
+  },
+  toggleView: function () {
+    this.views.forEach(view => view.classList.remove('active'))
+    this.currentView.el.classList.add('active')
+    return this
+  },
+  toggleBackBtn: function () {
+    var back = document.querySelector('.-item.-back')
+    var fn = back.classList
+    this.paths.length !== 1 ? fn.remove('-hide') : fn.add('-hide')
+    return this
+  },
+  updateLocalStorage: function () {
+    localStorage.setItem('paths', JSON.stringify(this.paths))
+    return this
+  },
+  selected: function (_viewID) {
+    var view = _viewID[0]
+    var id = _viewID[1]
+    return { id, el: Util.select('.-view.-' + view), view }
+  },
+  viewID: function (link) {
+    var view = link.getAttribute('data-view')
+    var id = link.getAttribute('data-id')
+    return [view, id]
+  },
+  path: function (_viewID) {
+    return _viewID[0] + ':' + _viewID[1]
+  },
+  updatemdp: function () {
     this.mdp.populate(this.currentView.data).lazyLoad('mdp')
-  }
-
-  updatemlp() {
+  },
+  updatemlp: function () {
     this.mlp.links.forEach(link => link.removeEventListener('click', () => this.goto(link)))
-    console.log('mlp data', this.currentView.data)
     this.mlp.populate(this.currentView.data).lazyLoad('mlp')
     this.mlp.links.forEach(link => link.addEventListener('click', () => this.goto(link)))
-  }
+  },
+  updatehome: function () {
 
-  data(selected) {
+  },
+  data: function (selected) {
     if (selected.view === 'mdp') {
       return this.util.data.filter(
         datum => datum.id === selected.id
@@ -396,105 +270,239 @@ class Navigate {
       )
     }
   }
+}
 
-  selected(target) {
-    var _viewID = this.viewID(target).split(':')
-    var view = _viewID[0]
-    var id = _viewID[1]
+var Home = function (banners, util) {
+  this.name = 'Home'
+  // this.banner11 = document.querySelector('.-link[data-row="1"]')
+  // this.banner21 = document.querySelector('.-link[data-row="2"][data-col="1"]')
+  // this.banner22 = document.querySelector('.-link[data-row="2"][data-col="2"]')
+  // this.banner31 = document.querySelector('.-link[data-row="3"]')
+  // this.banner41 = document.querySelector('.-link[data-row="4"]')
 
-    return {id, el: document.querySelector('.-view.-' + view), view}
-  }
+  this.banners = banners
+  
+  this.util = util
 
-  viewID(target) {
-    var view = target.getAttribute('data-view')
-    var id = target.getAttribute('data-id')
-    var _viewID = view + ":" + id
-    // if view class is the back button,
-    // pop the stack and return the previous view
-    // else push the view class to the stack and return the view
-    if (view === 'back') {
-      (this.paths.length !== 1) && this.paths.pop()
-      return this.paths[this.paths.length - 1]
-    } else {
-      this.paths.push(_viewID)
-      return _viewID
-    }
-  }
+  // continue from line 270
+  this.populate().lazyLoad('home')
+}
 
-  toggleView() {
-    this.views.forEach(view => view.classList.remove('active'))
-    this.currentView.el.classList.add('active')
+Home.prototype = {
+  lazyLoad: Util.lazyLoad,
+  populate: function () {
+    Object.keys(this.banners).map(key => this.buildBanner(key))
     return this
-  }
+  },
+  buildBanner: function (key) {
+    var view = this.banners[key].view
+    var name = this.banners[key].name
+    var id = this.util.id(name)
+    var src = this.banners[key].src
+    // var parent = this[key]
+    var parent = document.querySelector('.-link[data-banner="'+ key + '"]')
+    parent.setAttribute('data-view', view)
+    parent.setAttribute('data-id', id)
 
-  toggleBackBtn() {
-    var back = document.querySelector('.-item.-back')
-    var fn = back.classList
-    this.paths.length !== 1 ? fn.remove('-hide') : fn.add('-hide')
+    var img = document.createElement('img')
+    img.classList.add('lazy-image')
+    img.setAttribute('data-src', src)
+    parent.appendChild(img)
   }
 }
 
-class Main {
-  constructor() {
-    this.self = this
-   this.banners = {
-      banner11: {
-        name: 'Pace Christian Cartoons',
-        src: '../img/designs/fl-pcc.jpg',
-        view: 'mdp'
-      },
-      banner21: {
-        name: 'Ramsay Christian Cartoons',
-        src: '../img/designs/mfl-ramsay-christian-cartoons.jpg',
-        view: 'mdp'
-      },
-      banner22: {
-        name: 'The Bible Project',
-        src: '../img/designs/mfl-tbp.jpg',
-        view: 'mlp'
-      },
-      banner31: {
-        name: 'Max 7 - RodTheNey',
-        src: '../img/designs/fl-max7-3d.jpg',
-        view: 'mlp'
+var MLP = function (util) {
+  this.name = 'Manual Listing Page'
+  this.mkus = document.querySelector('.-mkus')
+  this.data = []
+  this.links = []
+  this.util = util
+
+  this.thumbnail = id => 'https://img.youtube.com/vi/' + id + '/0.jpg'
+  // this.lazyLoad()
+}
+
+MLP.prototype = {
+  populate: function (data) {
+    this.data = data
+    this.links = []
+    this.mkus.innerHTML = ''
+    this.data.map(datum => {
+      var prop = {
+        mku: ['div', { class: '-mku -posrel -link', 'data-id': datum.id, 'data-view': 'mdp' }, '', ''],
+        imgP: ['div', { class: '-posabs -img' }, '', ''],
+        img: ['img', { class: 'lazy-image -posabs', 'data-src': this.thumbnail(datum.id) }, '', ''],
+        preloader: ['span', { class: '-preloader -loading' }, '', ''],
+        details: ['div', { class: '-details -posabs' }, '', ''],
+        name: ['div', { class: '-name' }, '', datum.name],
+        desc: ['div', { class: '-desc' }, '', datum.desc],
+        author: ['div', { class: '-author' }, '', datum.author]
       }
+
+      var mku = Tag.create(prop['mku'])
+      var imgP = Tag.create(prop['imgP'])
+      var img = Tag.create(prop['img'])
+      var preloader = Tag.create(prop['preloader'])
+      var details = Tag.create(prop['details'])
+      var name = Tag.create(prop['name'])
+      var desc = Tag.create(prop['desc'])
+      var author = Tag.create(prop['author'])
+
+      Tag.appendMany2One([preloader, img], imgP)
+      Tag.appendMany2One([name, desc, author], details)
+      Tag.appendMany2One([imgP, details], mku)
+      this.links.push(mku)
+      this.mkus.appendChild(mku)
+    })
+    return this
+  },
+  lazyLoad: Util.lazyLoad
+}
+
+var MDP = function () {
+  this.name = 'Material Detail Page'
+  this.data = {}
+  this.ImageObserver = null
+  // this.lazyLoad()
+
+  // slides
+  this.slideCount = 0
+  this.slideNum = 1
+  this.material = document.querySelector('.-pane iframe.-material')
+  this.slideStatus = document.querySelector('.-slideshow .-status')
+  this.slideParent = document.querySelector('.-slides')
+  this.slideImg = document.querySelector('.-slides .lazy-image')
+  this.preloader = document.querySelector('.-slides .-preloader')
+  this.gotoSlide = document.getElementById('goto')
+  this.prevSlide = document.querySelector('.-control.-prev')
+  this.nextSlide = document.querySelector('.-control.-next')
+
+  this.youtubesrc = id => 'https://www.youtube.com/embed/' + id
+  this.slidesrc = id => './img/designs/' + id + '.jpg'
+
+  this.listeners()
+}
+
+MDP.prototype = {
+  populate: function (data) {
+    this.data = data[0]
+    this[this.data['type']]()
+    this.togglePane(this.data['type'])
+    return this
+  },
+  video: function () {
+    this.material.setAttribute('src', this.youtubesrc(this.data['id']))
+    return this
+  },
+  slideshow: function () {
+    this.slideCount = parseInt(this.data.meta.split('-')[1])
+    this.updateSlide(1)
+    return this
+  },
+  listeners: function () {
+    this.gotoSlide.addEventListener('keyup', () => this.updateSlide(parseInt(this.gotoSlide.value)))
+    this.prevSlide.addEventListener('click', () => this.updateSlide(--this.slideNum))
+    this.nextSlide.addEventListener('click', () => this.updateSlide(++this.slideNum))
+  },
+  updateSlide: function (num) {
+    num = parseInt(num)
+    this.setBoundary(num)
+    this.updateUI()
+  },
+  setBoundary: function (num) {
+    if (num > this.slideCount)
+      this.slideNum = 1
+    else if (num < 1)
+      this.slideNum = this.slideCount
+    else
+      this.slideNum = num ? num : 1
+  },
+  updateUI: function () {
+    var id = this.data.id + '/' + this.slideNum
+    this.slideImg.setAttribute('data-src', this.slidesrc(id))
+    this.slideImg.removeAttribute('src')
+    this.slideImg.classList.remove('loaded')
+    this.preloader.classList.add('-loading')
+    this.slideStatus.textContent = this.slideNum + ' / ' + this.slideCount
+
+    Util.observe(this.slideParent)
+    // this.imageObserver = new ImageObserver(this.slideParent)
+    // this.imageObserver = null
+  },
+  togglePane: function (type) {
+    var panes = document.querySelectorAll('.-mdp .-pane')
+    panes.forEach(pane => pane.classList.add('-hide'))
+    var currentPane = document.querySelector('.-pane.-' + type)
+    currentPane.classList.remove('-hide')
+  },
+  lazyLoad: Util.lazyLoad
+}
+
+var Main = function () {
+  this.self = this
+  this.banners = {
+    banner11: {
+      name: 'Pace Christian Cartoons',
+      src: '../img/designs/fl-pcc.jpg',
+      view: 'mdp'
+    },
+    banner21: {
+      name: 'Ramsay Christian Cartoons',
+      src: '../img/designs/mfl-ramsay-christian-cartoons.jpg',
+      view: 'mdp'
+    },
+    banner22: {
+      name: 'The Bible Project',
+      src: '../img/designs/mfl-tbp.jpg',
+      view: 'mlp'
+    },
+    banner31: {
+      name: 'Max 7 - RodTheNey',
+      src: '../img/designs/fl-max7-3d.jpg',
+      view: 'mlp'
+    },
+    banner41: {
+      name: 'The Animated Series',
+      src: '../img/designs/fl-bas.jpg',
+      view: 'mlp'
     }
-    
-    this.authenticate()
-    this.afterLogin()
   }
+  
+  this.authenticate()
+  this.afterLogin()
+}
 
-  getData(){
-
-    // var response = await fetch('../services/data.json')
+Main.prototype = {
+  getData() {
     return fetch('../services/data.json')
     .then(response => response.json())
-    // return await response.json()
-  }
+  },
+  authenticate: function () {
 
-  authenticate() {
-
-    // firebase.auth().onAuthStateChanged(function(user) {
-    //   if (user) {
-    //     afterLogin()
-    //   } else {
-    //     // No user is signed in.
-    //   }
-    // });
-  }
-
-  afterLogin() {
+  },
+  afterLogin: function () {
     this.getData().then(json => {
       var util = new Util(json)
       var home = new Home(this.banners, util)
       var mlp = new MLP(util)
       var mdp = new MDP()
-      new Navigate({util, home, mlp, mdp})
+      new Navigate({ util, home, mlp, mdp })
     })
   }
 }
 
-window.addEventListener('load', function(){
-  console.log('completely loaded')
-  new Main()
-})
+// window.addEventListener('load', function () {
+//   console.log('content completely loaded')
+//   new Main()
+// })
+new Main()
+// function runOnStart() {
+//   new Main()
+// }
+// if(document.readyState !== 'loading') {
+//   runOnStart()
+// } else {
+//   document.addEventListener('DOMContentLoaded', function () {
+//       runOnStart()
+//   });
+// }
