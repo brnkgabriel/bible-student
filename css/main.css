@@ -1,11 +1,9 @@
 .-main:not(.-posrel) {
 }
 .-main {
-  height: 145.625vw;
-  max-height: 699px;
-  width: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 100%;
+  overflow: hidden;
+  margin-top: 56px;
 }
 .-view {
   width: 100%;

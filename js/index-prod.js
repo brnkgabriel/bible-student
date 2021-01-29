@@ -193,6 +193,7 @@ Navigate.prototype = {
     var selected = this.selected(path.split(':'))
     selected.data = this.data(selected)
     this.currentView = selected
+    console.log('this.currentView', this.currentView)
     this.updateViewData()
     .toggleView()
     .toggleBackBtn()
@@ -448,20 +449,25 @@ var Main = function () {
     },
     banner21: {
       name: 'Ramsay Christian Cartoons',
-      src: '../img/designs/mfl-ramsay-christian-cartoons.jpg',
+      src: '../img/designs/fl-charles.jpg',
       view: 'mdp'
     },
-    banner22: {
+    banner31: {
+      name: 'Superbook',
+      src: '../img/designs/mfl-superbook.jpg',
+      view: 'mlp'
+    },
+    banner32: {
       name: 'The Bible Project',
       src: '../img/designs/mfl-tbp.jpg',
       view: 'mlp'
     },
-    banner31: {
+    banner41: {
       name: 'Max 7 - RodTheNey',
       src: '../img/designs/fl-max7-3d.jpg',
       view: 'mlp'
     },
-    banner41: {
+    banner51: {
       name: 'The Animated Series',
       src: '../img/designs/fl-bas.jpg',
       view: 'mlp'

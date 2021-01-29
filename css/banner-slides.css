@@ -1,0 +1,44 @@
+
+.-slide {
+  height: 40vw !important;
+  max-height: 192px;
+  overflow: hidden;
+}
+.-slide .-link {
+  position: absolute;
+  top: -150%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.-slide .-link.active {
+  top: 50%;
+}
+.-slide .-controls {
+  top: 50%;
+  right: 8px;
+  margin: unset;
+  transform: translateY(-50%);
+}
+.-slide .-controls .-control {
+  background-color: rgba(255,255,255,0.8);
+  margin: 5px 0;
+  position: relative;
+  transform: scale(1);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 70%);
+}
+
+.-slide .-controls .-control:active {
+  transform: scale(0.98);
+}
+
+.-slide .-controls .-control::before {
+
+}
+.-controls .-control.-prev::before,
+.-controls .-control.-next::before {
+  transform: translate(-50%,-50%) rotate(-45deg)
+}
+
+.-slide .-controls .-control.-next::before {
+  transform: translate(-50%,-50%) rotate(135deg)
+}

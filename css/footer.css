@@ -3,13 +3,13 @@
   height: 56px;
   background-color: var(--surfaceColor);
   bottom: 0;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.05);
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%);
   width: 100%;
   max-width: 480px;
   z-index: 10;
   left: 50%;
-  transform: translateX(-50%);
   overflow: hidden;
+  transform: translateX(-50%);
 }
 
 .-footer[data-action="show"] {
