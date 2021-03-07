@@ -59,20 +59,11 @@
   background-color: white;
   cursor: pointer;
 }
-.-controls .-control.-prev::before,
-.-controls .-control.-next::before {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border: 2px solid var(--darkOrange);
-  border-left: unset;
-  border-bottom: unset;
-  top: 50%;
-  left: 50%;
+.-mdp .-controls .-control.-prev::before,
+.-mdp .-controls .-control.-next::before {
   transform: translate(-50%,-50%) rotate(-135deg);
 }
-.-controls .-control.-next::before {
+.-mdp .-controls .-control.-next::before {
   transform: translate(-50%,-50%) rotate(45deg);
 }
 .-controls .-control.-prev {
