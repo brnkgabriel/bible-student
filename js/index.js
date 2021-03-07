@@ -874,7 +874,8 @@ class Main {
       "name=Robert Jermain Thomas|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=icucEJdoquI|type=video|meta=",
       "name=John Wesley|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=2t8v9sPYb8c|type=video|meta=",
       "name=William Booth|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=JmwH2R8tH1o|type=video|meta=",
-      "name=Richard Wurmbrand|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=VD_mTGy7op0|type=video|meta="
+      "name=Richard Wurmbrand|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=VD_mTGy7op0|type=video|meta=",
+      "name=Corrie Ten Boom|desc=The Torchlighters|author=Christian History Institute|host=YouTube|id=oIC5bFFzSKI|type=video|meta="
     ]
     this.self = this
     this.banners = {
